@@ -12,7 +12,7 @@ jobs:
     steps:
       # Checkout the code
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       # Set up Node.js environment with version 18
       - name: Set up Node.js
@@ -26,22 +26,26 @@ jobs:
           npm install --legacy-peer-deps
           npm install -g react-native-cli
 
-      # Install Ruby and Fastlane
-      - name: Install Ruby and Fastlane
+      # Install Ruby and Bundler (recommended for Ruby dependency management)
+      - name: Install Ruby and Bundler
         run: |
           brew install ruby
-          sudo gem install fastlane
+          gem install bundler
+
+      # Install dependencies with Bundler for consistent versions
+      - name: Install Ruby dependencies (CocoaPods and Fastlane)
+        run: |
+          cd ios
+          bundle install  # Install CocoaPods and Fastlane defined in Gemfile
 
       # Install CocoaPods dependencies
       - name: Install CocoaPods dependencies
         run: |
           cd ios
-          gem install cocoapods
-          pod install
+          bundle exec pod install  # Ensure consistent version of CocoaPods
 
       # Run Fastlane for Build and Archive
       - name: Run Fastlane Build
         run: |
           cd ios
-          fastlane ios beta
-
+          bundle exec fastlane ios beta  # Use bundler to run Fastlane
