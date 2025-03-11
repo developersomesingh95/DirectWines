@@ -41,11 +41,9 @@ jobs:
       # Install CocoaPods dependencies
       - name: Install CocoaPods dependencies
         run: |
-          cd ios
           bundle exec pod install  # Ensure consistent version of CocoaPods
 
       # Run Fastlane for Build and Archive
       - name: Run Fastlane Build
         run: |
-          cd ios
           bundle exec fastlane ios beta  # Use bundler to run Fastlane
