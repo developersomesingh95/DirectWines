@@ -32,6 +32,18 @@ jobs:
           brew install ruby
           gem install bundler
 
+      # Install CocoaPods and xcodeproj gem to avoid version issues with Xcode project files
+      - name: Install CocoaPods and xcodeproj
+        run: |
+          gem install cocoapods
+          gem install xcodeproj
+          pod --version  # Confirm the installed CocoaPods version
+
+      # Clean CocoaPods cache (fix any potential corrupted cache)
+      - name: Clean CocoaPods Cache
+        run: |
+          pod cache clean --all
+
       # Install Ruby dependencies (CocoaPods and Fastlane) using Bundler
       - name: Install Ruby dependencies (CocoaPods and Fastlane)
         run: |
