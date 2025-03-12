@@ -10,29 +10,25 @@ jobs:
     runs-on: macos-latest  # Use macOS runner for iOS
 
     steps:
-      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # Set up Node.js environment with version 18
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
         with:
-          node-version: '18'
+          ruby-version: '2.7'
+          bundler-cache: true
 
-      # Install dependencies
       - name: Install dependencies
         run: |
           npm install --legacy-peer-deps
           npm install -g react-native-cli
 
-      # Install Ruby and Bundler
       - name: Install Ruby and Bundler
         run: |
           brew install ruby
           gem install bundler
 
-      # Install CocoaPods and xcodeproj
       - name: Install CocoaPods and xcodeproj
         run: |
           gem install cocoapods --version '>= 1.16'
@@ -40,29 +36,24 @@ jobs:
           sudo gem install ffi
           pod --version  # Confirm the installed CocoaPods version
 
-      # Clean CocoaPods cache
       - name: Clean CocoaPods Cache
         run: |
           pod cache clean --all
 
-      # Remove Gemfile.lock before installing gems (to avoid potential version conflicts)
       - name: Remove Gemfile.lock (if exists)
         run: |
           rm -f ios/Gemfile.lock  # Delete Gemfile.lock if it exists in ios folder
 
-      # Install Ruby dependencies (CocoaPods and Fastlane) using Bundler
       - name: Install Ruby dependencies (CocoaPods and Fastlane)
         run: |
           cd ios
           bundle install  # Ensure all gems in Gemfile are installed
 
-      # Install CocoaPods dependencies using Bundler
       - name: Install CocoaPods dependencies
         run: |
           cd ios
           bundle exec pod install  # Use bundler to ensure correct version of CocoaPods
 
-      # Run Fastlane for Build and Archive
       - name: Run Fastlane Build
         run: |
           cd ios
