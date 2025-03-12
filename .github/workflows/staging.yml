@@ -26,24 +26,20 @@ jobs:
           npm install --legacy-peer-deps
           npm install -g react-native-cli
 
-      # Install Ruby and Bundler (recommended for Ruby dependency management)
-      - name: Install Ruby and Bundler
+      # Install Ruby and Fastlane
+      - name: Install Ruby and Fastlane
         run: |
           brew install ruby
-          gem install bundler
-
-      # Install dependencies with Bundler for consistent versions
-      - name: Install Ruby dependencies (CocoaPods and Fastlane)
-        run: |
-          cd ios
-          bundle install  # Install CocoaPods and Fastlane defined in Gemfile
+          sudo gem install fastlane
 
       # Install CocoaPods dependencies
       - name: Install CocoaPods dependencies
         run: |
-          bundle exec pod install  # Ensure consistent version of CocoaPods
+          cd ios
+          gem install cocoapods
+          pod install
 
       # Run Fastlane for Build and Archive
       - name: Run Fastlane Build
         run: |
-          bundle exec fastlane ios beta  # Use bundler to run Fastlane
+          fastlane ios beta  # Use bundler to run Fastlane
