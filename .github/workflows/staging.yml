@@ -37,7 +37,7 @@ jobs:
       - name: Clean old gems and install new gems
         run: |
           gem uninstall cocoapods --all --force || true
-          gem install cocoapods -v ">= 1.13", "< 1.15.0"
+          gem install cocoapods -v '>= 1.13' -v '< 1.15.0'
           bundle install
           bundle exec pod install
 
