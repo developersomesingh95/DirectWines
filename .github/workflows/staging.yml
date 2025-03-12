@@ -39,7 +39,17 @@ jobs:
           gem uninstall cocoapods --all --force || true
           gem install cocoapods -v '>= 1.13' -v '< 1.15.0'
           bundle install
-          bundle exec pod install
+
+      # Check if Podfile exists, then run pod install
+      - name: Check if Podfile exists and install pods
+        run: |
+          if [ -f ios/Podfile ]; then
+            cd ios
+            bundle exec pod install
+          else
+            echo "Podfile not found in the 'ios' directory. Please ensure it exists."
+            exit 1
+          fi
 
       # Set up Fastlane Match
       - name: Set up Fastlane Match
