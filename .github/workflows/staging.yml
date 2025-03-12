@@ -73,7 +73,7 @@ jobs:
 
       - name: Match Certificates and Profiles
         run: |
-          fastlane match development --type ios
+          fastlane match development --type development
         env:
           MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
 
