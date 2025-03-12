@@ -31,11 +31,12 @@ jobs:
         run: |
           brew install ruby
           gem install bundler
+
       # Install CocoaPods and xcodeproj
       - name: Install CocoaPods and xcodeproj
         run: |
-          gem install cocoapods --version '>=1.16'
-          gem install xcodeproj --version '>=1.24'
+          gem install cocoapods --version '>= 1.16'
+          gem install xcodeproj --version '>= 1.24'
           sudo gem install ffi
           pod --version  # Confirm the installed CocoaPods version
 
