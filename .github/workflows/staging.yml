@@ -26,19 +26,21 @@ jobs:
           npm install --legacy-peer-deps
           npm install -g react-native-cli
 
-      # Install Ruby and Fastlane
-      - name: Install Ruby and Fastlane
+      # Install Ruby, Bundler, and Fastlane
+      - name: Install Ruby, Bundler, and Fastlane
         run: |
           brew install ruby
-          sudo gem install fastlane
+          gem install bundler
+          gem install fastlane
 
-      # Install CocoaPods dependencies
+      # Install CocoaPods dependencies via Bundler
       - name: Install CocoaPods dependencies
         run: |
           cd ios
-          gem install cocoapods -v '1.14.0'
-          pod install
+          bundle install
+          bundle exec pod install
 
+      # Set up Fastlane Match
       - name: Set up Fastlane Match
         run: |
           export MATCH_GIT_URL="git@github.com:developersomesingh95/DirectWines.git"  # Replace with your Git URL
@@ -50,6 +52,4 @@ jobs:
       - name: Run Fastlane Build
         run: |
           cd ios
-          bundle exec fastlane ios beta 
-
-
+          bundle exec fastlane ios beta
