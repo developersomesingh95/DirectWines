@@ -16,17 +16,20 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1.0'  # Upgrade Ruby to 3.1 or above
-          bundler-cache: true
+          ruby-version: '3.1.0'  # Ensure using a compatible Ruby version
+
+      - name: Install Bundler 2.6.2
+        run: |
+          gem install bundler -v 2.6.2
+          bundle _2.6.2_ install  # Ensure correct version of Bundler for installing gems
+
+      - name: Install missing base64 gem
+        run: gem install base64 -v 0.2.0  # Manually install base64 gem if required
 
       - name: Install dependencies
         run: |
           npm install --legacy-peer-deps
           npm install -g react-native-cli
-
-      - name: Install Bundler
-        run: |
-          gem install bundler -v 2.2.22  # Compatible with Ruby 3.1.x
 
       - name: Install CocoaPods and xcodeproj
         run: |
@@ -35,7 +38,6 @@ jobs:
           sudo gem install ffi
           pod --version  # Confirm the installed CocoaPods version
 
-      # Only cd ios once at the beginning and then proceed with the tasks
       - name: Install Ruby dependencies (CocoaPods and Fastlane)
         run: |
           cd ios
