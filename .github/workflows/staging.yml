@@ -1,41 +1,99 @@
-name: Build and Deploy iOS App
+name: Build and Deploy Staging
 
 on:
   push:
     branches:
       - main
-  pull_request:
-    branches:
-      - main
 
 jobs:
   build:
-    runs-on: macos-latest
+    runs-on: macos-latest  # Use macOS runner for iOS
 
     steps:
-      # Checkout the code from the repository
+      # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Set up Ruby environment with the desired Ruby version
-      - name: Set up Ruby and Fastlane
-        uses: ruby/setup-ruby@v1
+      # Set up Node.js environment with version 18
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          ruby-version: '2.7'  # Set your desired Ruby version
+          node-version: '18'
 
-      # Install dependencies (bundler and fastlane)
-      - name: Install dependencies using Bundler
+      # Install Ruby 3.1.0 or higher
+      - name: Install Ruby 3.1.0 or higher
         run: |
-          gem install bundler
-          bundle install
+          brew install ruby@3.1  # Install Ruby 3.1 using Homebrew
+          echo 'export PATH="/opt/homebrew/opt/ruby@3.1/bin:$PATH"' >> ~/.bash_profile
+          source ~/.bash_profile
+          ruby -v  # Verify Ruby version
 
-      # Set up match with Git URL for certificate/provisioning profile storage
+      # Install Bundler and CocoaPods
+      - name: Install Bundler and CocoaPods
+        run: |
+          gem install bundler -v 2.6.5  # Install the required Bundler version
+          gem install cocoapods        # Install CocoaPods
+          pod --version                # Verify CocoaPods installation
+
+      # Install Node.js dependencies
+      - name: Install Node.js dependencies
+        run: |
+          npm install --legacy-peer-deps
+          npm install -g react-native-cli
+
+      # Cache Ruby gems
+      - name: Cache Ruby gems
+        uses: actions/cache@v3
+        with:
+          path: ~/.bundle
+          key: ${{ runner.os }}-ruby-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-ruby-
+
+      # Install Ruby dependencies from Gemfile (including CocoaPods)
+      - name: Install Ruby dependencies from Gemfile
+        run: |
+          cd ios
+          bundle install  # Install dependencies using Bundler (including cocoapods)
+
+      # Cache CocoaPods dependencies
+      - name: Cache CocoaPods
+        uses: actions/cache@v3
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
+      # Install CocoaPods dependencies
+      - name: Install CocoaPods dependencies
+        run: |
+          cd ios
+          bundle exec pod install  # Use bundler to run pod install
+
       - name: Set up Fastlane Match
         run: |
-          export MATCH_GIT_URL="git@github.com:developersomesingh95/DirectWines.git"  # Replace with your Git URL
+          export MATCH_GIT_URL="git@github.com:yourusername/your-certificate-repository.git"  # Replace with your Git URL
           bundle exec fastlane match development --type development --git_url $MATCH_GIT_URL
+        env:
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
 
-      # Build and deploy your app (customize this based on your Fastlane setup)
-      - name: Build and Deploy
+      # Run Fastlane Build (using Bundler to ensure correct version)
+      - name: Run Fastlane Build
         run: |
-          bundle exec fastlane beta  # Replace with your Fastlane lane (e.g., beta, release, etc.)
+          cd ios
+          bundle exec fastlane ios beta  # Use bundler to run Fastlane
+        env:
+          FASTLANE_SKIP_UPDATE_CHECK: "true"  # Skip Fastlane update check to avoid unnecessary requests
+          DYLD_LIBRARY_PATH: "/usr/lib"  # Ensure dynamic libraries are set correctly
+          LANG: "en_US.UTF-8"  # Set locale for better logging
+          LC_ALL: "en_US.UTF-8"
+
+      # Debugging output for Fastlane and environment
+      - name: Debug Fastlane and Environment
+        run: |
+          echo "Ruby version: $(ruby -v)"
+          echo "Bundler version: $(bundler -v)"
+          echo "Fastlane version: $(fastlane -v)"
+          pod --version
+          env  # Print environment variables for debugging
