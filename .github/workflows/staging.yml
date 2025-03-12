@@ -35,6 +35,7 @@ jobs:
       # Install gems from the Gemfile
       - name: Install gems with Bundler
         run: |
+          gem install bundler  # Make sure bundler is installed
           bundle install --clean  # Ensure gems are installed and clean any old versions
 
       # Debug step: List installed gems to verify that fastlane is installed
