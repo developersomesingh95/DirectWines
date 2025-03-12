@@ -39,9 +39,9 @@ jobs:
           gem install cocoapods        # Install CocoaPods
           pod --version                # Verify CocoaPods installation
 
-      # Cache Ruby gems to speed up installs
+      # Cache Ruby gems
       - name: Cache Ruby gems
-        uses: actions/cache@v2
+        uses: actions/cache@v3  # Updated to v3
         with:
           path: ~/.bundle
           key: ${{ runner.os }}-ruby-${{ hashFiles('**/Gemfile.lock') }}
@@ -56,7 +56,7 @@ jobs:
 
       # Cache CocoaPods dependencies
       - name: Cache CocoaPods
-        uses: actions/cache@v2
+        uses: actions/cache@v3  # Updated to v3 for caching CocoaPods
         with:
           path: ios/Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/ios/Podfile.lock') }}
