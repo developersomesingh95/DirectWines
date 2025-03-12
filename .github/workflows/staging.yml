@@ -33,10 +33,11 @@ jobs:
           gem install bundler
           gem install fastlane
 
-      # Install CocoaPods dependencies via Bundler
-      - name: Install CocoaPods dependencies
+      # Clean any old gems and install fresh
+      - name: Clean old gems and install new gems
         run: |
-          cd ios
+          gem uninstall cocoapods --all --force || true
+          gem install cocoapods -v ">= 1.13", "< 1.15.0"
           bundle install
           bundle exec pod install
 
