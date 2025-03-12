@@ -2,4 +2,3 @@
 source 'https://rubygems.org'
 
 gem 'cocoapods', '>= 1.13', '!= 1.15.0', '!= 1.15.1'
-gem 'fastlane'  # If using Fastlane as well, include this too.
