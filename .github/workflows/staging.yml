@@ -32,10 +32,15 @@ jobs:
           brew install ruby
           gem install bundler
 
-      # Remove Gemfile.lock to force a clean install
-      - name: Remove Gemfile.lock
+      # Navigate to the directory where Gemfile.lock exists (if needed)
+      - name: Navigate to the project directory (if required)
         run: |
-          rm Gemfile.lock  # Remove Gemfile.lock to reset dependencies
+          cd ios  # Assuming Gemfile.lock exists in the ios directory; change if necessary
+          
+      # Remove Gemfile.lock only if it exists in the correct directory
+      - name: Remove Gemfile.lock if it exists
+        run: |
+          if [ -f Gemfile.lock ]; then rm Gemfile.lock; fi  # Check if Gemfile.lock exists before trying to remove it
 
       # Install gems from the Gemfile (with a fresh install)
       - name: Install gems with Bundler
