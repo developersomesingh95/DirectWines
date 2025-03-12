@@ -1,3 +1,4 @@
-source "https://rubygems.org"
+source 'https://rubygems.org'
 
-gem "fastlane"
+gem 'cocoapods', '~> 1.13'   # Ensure this line exists with the correct version
+gem 'fastlane'

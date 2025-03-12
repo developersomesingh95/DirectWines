@@ -32,18 +32,17 @@ jobs:
           brew install ruby
           gem install bundler -v 2.6.5  # Install the required Bundler version
 
-      # Install CocoaPods (through Bundler) and related dependencies
+      # Install dependencies from Gemfile (including CocoaPods and Fastlane)
+      - name: Install Ruby dependencies from Gemfile
+        run: |
+          cd ios
+          bundle install  # Install dependencies using Bundler (including cocoapods)
+
+      # Install CocoaPods dependencies
       - name: Install CocoaPods dependencies
         run: |
           cd ios
-          gem install cocoapods -v '>=1.13'  # Ensure correct CocoaPods version
-          bundle install  # Ensure all gems in Gemfile are installed
-
-      # Install CocoaPods dependencies using Bundler
-      - name: Install CocoaPods
-        run: |
-          cd ios
-          bundle exec pod install  # Use bundler to install the CocoaPods dependencies
+          bundle exec pod install  # Use Bundler to run pod install
 
       # Run Fastlane Build (using Bundler to ensure correct version)
       - name: Run Fastlane Build
