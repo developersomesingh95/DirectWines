@@ -33,19 +33,24 @@ jobs:
           gem install bundler
           gem install fastlane
 
-      # Clean any old gems and install fresh
+      # Debug step: Check installed gems
+      - name: List installed gems
+        run: |
+          gem list
+
+      # Clean old gems and install new gems
       - name: Clean old gems and install new gems
         run: |
           gem uninstall cocoapods --all --force || true
           gem install cocoapods -v '>= 1.13' -v '< 1.15.0'
-          bundle install
+          bundle install  # Ensure all gems are installed via Bundler
 
       # Check if Podfile exists, then run pod install
       - name: Check if Podfile exists and install pods
         run: |
           if [ -f ios/Podfile ]; then
             cd ios
-            bundle exec pod install
+            bundle exec pod install  # Ensure Cocoapods are installed via Bundler
           else
             echo "Podfile not found in the 'ios' directory. Please ensure it exists."
             exit 1
@@ -63,4 +68,4 @@ jobs:
       - name: Run Fastlane Build
         run: |
           cd ios
-          bundle exec fastlane ios beta
+          bundle exec fastlane ios beta  # Ensure correct version of Fastlane is used
