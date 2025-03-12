@@ -32,17 +32,21 @@ jobs:
           brew install ruby
           gem install bundler
 
-      # Install gems from the Gemfile
+      # Remove Gemfile.lock to force a clean install
+      - name: Remove Gemfile.lock
+        run: |
+          rm Gemfile.lock  # Remove Gemfile.lock to reset dependencies
+
+      # Install gems from the Gemfile (with a fresh install)
       - name: Install gems with Bundler
         run: |
-          gem install bundler  # Make sure bundler is installed
           bundle install --clean  # Ensure gems are installed and clean any old versions
 
       # Debug step: List installed gems to verify that fastlane is installed
       - name: List installed gems
         run: |
           gem list
-          
+
       # Ensure CocoaPods is installed via Bundler
       - name: Install CocoaPods dependencies
         run: |
