@@ -20,57 +20,24 @@ jobs:
         with:
           node-version: '18'
 
-      # Install Ruby 3.1.0 or higher
-      - name: Install Ruby 3.1.0 or higher
-        run: |
-          brew install ruby@3.1  # Install Ruby 3.1 using Homebrew
-          echo 'export PATH="/opt/homebrew/opt/ruby@3.1/bin:$PATH"' >> ~/.bash_profile
-          source ~/.bash_profile
-          ruby -v  # Verify Ruby version
-
-      # Install Bundler and CocoaPods
-      - name: Install Bundler and CocoaPods
-        run: |
-          gem install bundler -v 2.6.5  # Install the required Bundler version
-          gem install cocoapods -v '>= 1.13', '< 1.15.0'
-                      # Install CocoaPods
-          pod --version                # Verify CocoaPods installation
-
-      # Install Node.js dependencies
-      - name: Install Node.js dependencies
+      # Install dependencies
+      - name: Install dependencies
         run: |
           npm install --legacy-peer-deps
           npm install -g react-native-cli
 
-      # Cache Ruby gems
-      - name: Cache Ruby gems
-        uses: actions/cache@v3
-        with:
-          path: ~/.bundle
-          key: ${{ runner.os }}-ruby-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-ruby-
-
-      # Install Ruby dependencies from Gemfile (including CocoaPods)
-      - name: Install Ruby dependencies from Gemfile
+      # Install Ruby and Fastlane
+      - name: Install Ruby and Fastlane
         run: |
-          cd ios
-          bundle install  # Install dependencies using Bundler (including cocoapods)
-
-      # Cache CocoaPods dependencies
-      - name: Cache CocoaPods
-        uses: actions/cache@v3
-        with:
-          path: ios/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/ios/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
+          brew install ruby
+          sudo gem install fastlane
 
       # Install CocoaPods dependencies
       - name: Install CocoaPods dependencies
         run: |
           cd ios
-          bundle exec pod install  # Use bundler to run pod install
+          gem install cocoapods
+          pod install
 
       - name: Set up Fastlane Match
         run: |
@@ -83,18 +50,6 @@ jobs:
       - name: Run Fastlane Build
         run: |
           cd ios
-          bundle exec fastlane ios beta  # Use bundler to run Fastlane
-        env:
-          FASTLANE_SKIP_UPDATE_CHECK: "true"  # Skip Fastlane update check to avoid unnecessary requests
-          DYLD_LIBRARY_PATH: "/usr/lib"  # Ensure dynamic libraries are set correctly
-          LANG: "en_US.UTF-8"  # Set locale for better logging
-          LC_ALL: "en_US.UTF-8"
+          bundle exec fastlane ios beta 
 
-      # Debugging output for Fastlane and environment
-      - name: Debug Fastlane and Environment
-        run: |
-          echo "Ruby version: $(ruby -v)"
-          echo "Bundler version: $(bundler -v)"
-          echo "Fastlane version: $(fastlane -v)"
-          pod --version
-          env  # Print environment variables for debugging
+
