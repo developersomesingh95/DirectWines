@@ -23,16 +23,16 @@ jobs:
       # Install Ruby 3.1.0 or higher
       - name: Install Ruby 3.1.0 or higher
         run: |
-          brew install ruby@3.1  # Install Ruby 3.1 using Homebrew
+          brew install ruby@3.1
           echo 'export PATH="/opt/homebrew/opt/ruby@3.1/bin:$PATH"' >> ~/.zshrc
-          source ~/.zshrc  # Ensure Ruby 3.1 is used in the environment
+          source ~/.zshrc
 
       # Install Bundler and CocoaPods
       - name: Install Bundler and CocoaPods
         run: |
-          gem install bundler -v 2.6.5  # Install specific version of Bundler
-          gem install cocoapods        # Install CocoaPods
-          pod --version                # Verify CocoaPods installation
+          gem install bundler -v 2.6.5
+          gem install cocoapods
+          pod --version
 
       # Install Node.js dependencies
       - name: Install dependencies
@@ -40,38 +40,29 @@ jobs:
           npm install --legacy-peer-deps
           npm install -g react-native-cli
 
-      # Cache Ruby gems
-      - name: Cache Ruby gems
-        uses: actions/cache@v3
-        with:
-          path: ~/.bundle
-          key: ${{ runner.os }}-ruby-${{ hashFiles('**/Gemfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-ruby-
+      # Clean the CocoaPods cache
+      - name: Clean CocoaPods cache
+        run: |
+          cd ios
+          rm -rf Pods
+          rm -rf ~/Library/Caches/CocoaPods
+          rm -rf ios/DerivedData
+          pod install --repo-update
 
-      # Install Ruby dependencies from Gemfile (including CocoaPods)
+      # Install Ruby dependencies from Gemfile
       - name: Install Ruby dependencies from Gemfile
         run: |
           cd ios
-          bundle install  # Install dependencies using Bundler (including cocoapods)
-
-      # Cache CocoaPods dependencies
-      - name: Cache CocoaPods
-        uses: actions/cache@v3
-        with:
-          path: ios/Pods
-          key: ${{ runner.os }}-pods-${{ hashFiles('**/ios/Podfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-pods-
+          bundle install
 
       # Install CocoaPods dependencies
       - name: Install CocoaPods dependencies
         run: |
           cd ios
-          bundle exec pod install  # Use bundler to run pod install
+          bundle exec pod install
 
-      # Run Fastlane Build (using Bundler to ensure correct version)
-      - name: Run Fastlane Build
+      # Run Fastlane Build with verbose logging
+      - name: Run Fastlane Build with verbose logging
         run: |
           cd ios
-          bundle exec fastlane ios beta  # Use bundler to run Fastlane
+          bundle exec fastlane ios beta --verbose
