@@ -32,7 +32,8 @@ jobs:
       - name: Install Bundler and CocoaPods
         run: |
           gem install bundler -v 2.6.5  # Install the required Bundler version
-          gem install cocoapods        # Install CocoaPods
+          gem install cocoapods -v '>= 1.13', '< 1.15.0'
+                      # Install CocoaPods
           pod --version                # Verify CocoaPods installation
 
       # Install Node.js dependencies
