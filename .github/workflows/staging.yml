@@ -71,6 +71,12 @@ jobs:
           cd ios
           bundle exec pod install  # Use bundler to run pod install
 
+      - name: Match Certificates and Profiles
+        run: |
+          fastlane match development --type ios
+        env:
+          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
+
       # Run Fastlane Build (using Bundler to ensure correct version)
       - name: Run Fastlane Build
         run: |
