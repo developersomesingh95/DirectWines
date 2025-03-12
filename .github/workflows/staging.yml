@@ -20,28 +20,29 @@ jobs:
         with:
           node-version: '18'
 
-      # Install dependencies
-      - name: Install Node.js dependencies
+      # Install Ruby (Upgrade to Ruby 3.1.0 or higher)
+      - name: Install Ruby 3.1.0 or higher
         run: |
-          npm install --legacy-peer-deps
-          npm install -g react-native-cli
-
-      # Set up Ruby environment (Ensure correct Ruby version)
-      - name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: '2.7.8'  # Use a stable Ruby version, you can change this if needed
+          brew install ruby@3.1  # Install Ruby 3.1 using Homebrew
+          echo 'export PATH="/opt/homebrew/opt/ruby@3.1/bin:$PATH"' >> ~/.bash_profile
+          source ~/.bash_profile
 
       # Install Bundler and CocoaPods
       - name: Install Bundler and CocoaPods
         run: |
-          gem install bundler -v 2.6.5  # Install required Bundler version
+          gem install bundler -v 2.6.5  # Now this will work as Ruby 3.1 is installed
           gem install cocoapods        # Install CocoaPods
           pod --version                # Verify CocoaPods installation
 
+      # Install Node.js dependencies
+      - name: Install dependencies
+        run: |
+          npm install --legacy-peer-deps
+          npm install -g react-native-cli
+
       # Cache Ruby gems
       - name: Cache Ruby gems
-        uses: actions/cache@v3  # Updated to v3
+        uses: actions/cache@v3
         with:
           path: ~/.bundle
           key: ${{ runner.os }}-ruby-${{ hashFiles('**/Gemfile.lock') }}
@@ -56,7 +57,7 @@ jobs:
 
       # Cache CocoaPods dependencies
       - name: Cache CocoaPods
-        uses: actions/cache@v3  # Updated to v3 for caching CocoaPods
+        uses: actions/cache@v3
         with:
           path: ios/Pods
           key: ${{ runner.os }}-pods-${{ hashFiles('**/ios/Podfile.lock') }}
