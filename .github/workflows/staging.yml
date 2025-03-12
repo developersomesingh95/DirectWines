@@ -21,28 +21,53 @@ jobs:
           node-version: '18'
 
       # Install dependencies
-      - name: Install dependencies
+      - name: Install Node.js dependencies
         run: |
           npm install --legacy-peer-deps
           npm install -g react-native-cli
 
-      # Install Ruby and Bundler (for managing Ruby dependencies)
-      - name: Install Ruby and Bundler
-        run: |
-          brew install ruby
-          gem install bundler -v 2.6.5  # Install the required Bundler version
+      # Set up Ruby environment (Ensure correct Ruby version)
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '2.7.8'  # Use a stable Ruby version, you can change this if needed
 
-      # Install dependencies from Gemfile (including CocoaPods and Fastlane)
+      # Install Bundler and CocoaPods
+      - name: Install Bundler and CocoaPods
+        run: |
+          gem install bundler -v 2.6.5  # Install required Bundler version
+          gem install cocoapods        # Install CocoaPods
+          pod --version                # Verify CocoaPods installation
+
+      # Cache Ruby gems to speed up installs
+      - name: Cache Ruby gems
+        uses: actions/cache@v2
+        with:
+          path: ~/.bundle
+          key: ${{ runner.os }}-ruby-${{ hashFiles('**/Gemfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-ruby-
+
+      # Install Ruby dependencies from Gemfile (including CocoaPods)
       - name: Install Ruby dependencies from Gemfile
         run: |
           cd ios
           bundle install  # Install dependencies using Bundler (including cocoapods)
 
+      # Cache CocoaPods dependencies
+      - name: Cache CocoaPods
+        uses: actions/cache@v2
+        with:
+          path: ios/Pods
+          key: ${{ runner.os }}-pods-${{ hashFiles('**/ios/Podfile.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-pods-
+
       # Install CocoaPods dependencies
       - name: Install CocoaPods dependencies
         run: |
           cd ios
-          bundle exec pod install  # Use Bundler to run pod install
+          bundle exec pod install  # Use bundler to run pod install
 
       # Run Fastlane Build (using Bundler to ensure correct version)
       - name: Run Fastlane Build
