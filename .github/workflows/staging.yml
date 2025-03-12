@@ -7,44 +7,36 @@ on:
 
 jobs:
   build:
-    runs-on: macos-latest  # Use macOS runner for iOS
+    runs-on: macos-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Ruby
+      - name: Set up Ruby 3.1.0
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '3.1.0'  # Ensure using a compatible Ruby version
+          ruby-version: '3.1.0'  # Ensure Ruby 3.1.0 or higher is installed
 
-      - name: Install Bundler 2.6.2
+      - name: Install Bundler, CocoaPods, Fastlane
         run: |
-          gem install bundler -v 2.6.2
-          bundle _2.6.2_ install  # Ensure correct version of Bundler for installing gems
-
-      - name: Install missing base64 gem
-        run: gem install base64 -v 0.2.0  # Manually install base64 gem if required
-
-      - name: Install missing nkf gem
-        run: gem install nkf -v 0.2.0  # Manually install nkf gem if required
+          gem install bundler
+          gem install cocoapods --version '>=1.16.2'
+          gem install fastlane
 
       - name: Install dependencies
         run: |
           npm install --legacy-peer-deps
           npm install -g react-native-cli
 
-      - name: Install CocoaPods and xcodeproj
-        run: |
-          gem install cocoapods --version '>= 1.16'
-          gem install xcodeproj --version '>= 1.24'
-          sudo gem install ffi
-          pod --version  # Confirm the installed CocoaPods version
-
       - name: Install Ruby dependencies (CocoaPods and Fastlane)
         run: |
           cd ios
-          bundle install  # Ensure all gems in Gemfile are installed
+          bundle install  # Ensure all gems are installed
+
+      - name: Clean CocoaPods Cache
+        run: |
+          pod cache clean --all
 
       - name: Install CocoaPods dependencies
         run: |
@@ -53,5 +45,4 @@ jobs:
 
       - name: Run Fastlane Build
         run: |
-          cd ios
           bundle exec fastlane ios beta  # Use bundler to run Fastlane
