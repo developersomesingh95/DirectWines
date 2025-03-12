@@ -32,14 +32,14 @@ jobs:
           brew install ruby
           gem install bundler
 
-      # Install CocoaPods and xcodeproj gem to avoid version issues with Xcode project files
+      # Install CocoaPods and xcodeproj
       - name: Install CocoaPods and xcodeproj
         run: |
-          gem install cocoapods
-          gem install xcodeproj
+          gem install cocoapods --version '>=1.16'
+          gem install xcodeproj  # Install the latest version of xcodeproj
           pod --version  # Confirm the installed CocoaPods version
 
-      # Clean CocoaPods cache (fix any potential corrupted cache)
+      # Clean CocoaPods cache
       - name: Clean CocoaPods Cache
         run: |
           pod cache clean --all
