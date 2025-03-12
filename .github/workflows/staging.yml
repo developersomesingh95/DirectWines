@@ -26,6 +26,9 @@ jobs:
       - name: Install missing base64 gem
         run: gem install base64 -v 0.2.0  # Manually install base64 gem if required
 
+      - name: Install missing nkf gem
+        run: gem install nkf -v 0.2.0  # Manually install nkf gem if required
+
       - name: Install dependencies
         run: |
           npm install --legacy-peer-deps
