@@ -16,7 +16,7 @@ jobs:
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          ruby-version: '2.7'  # Match the Ruby version you're using locally
+          ruby-version: '2.7'  # Ensure Ruby 2.7 is installed
           bundler-cache: true
 
       - name: Install dependencies
@@ -26,7 +26,7 @@ jobs:
 
       - name: Install Bundler
         run: |
-          gem install bundler -v 2.6.5
+          gem install bundler -v 2.2.22  # Compatible with Ruby 2.7.x
 
       - name: Install CocoaPods and xcodeproj
         run: |
@@ -35,10 +35,7 @@ jobs:
           sudo gem install ffi
           pod --version  # Confirm the installed CocoaPods version
 
-      - name: Remove Gemfile.lock (if exists)
-        run: |
-          rm -f ios/Gemfile.lock  # Delete Gemfile.lock if it exists in ios folder
-
+      # Only cd ios once at the beginning and then proceed with the tasks
       - name: Install Ruby dependencies (CocoaPods and Fastlane)
         run: |
           cd ios
