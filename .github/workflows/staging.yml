@@ -31,12 +31,12 @@ jobs:
         run: |
           brew install ruby
           gem install bundler
-
       # Install CocoaPods and xcodeproj
       - name: Install CocoaPods and xcodeproj
         run: |
           gem install cocoapods --version '>=1.16'
           gem install xcodeproj --version '>=1.24'
+          sudo gem install ffi
           pod --version  # Confirm the installed CocoaPods version
 
       # Clean CocoaPods cache
@@ -53,11 +53,9 @@ jobs:
       # Install CocoaPods dependencies
       - name: Install CocoaPods dependencies
         run: |
-          cd ios
           bundle exec pod install  # Use bundler to ensure correct version of CocoaPods
 
       # Run Fastlane for Build and Archive
       - name: Run Fastlane Build
         run: |
-          cd ios
           bundle exec fastlane ios beta  # Use bundler to run Fastlane
