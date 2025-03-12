@@ -13,32 +13,38 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Set up Ruby 3.1.0
-        uses: ruby/setup-ruby@v1
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
         with:
-          ruby-version: '3.1.0'  # Ensure Ruby 3.1.0 or higher is installed
+          node-version: '20.x'  # Use the same Node.js version for consistency
 
-      - name: Install CocoaPods, Bundler, and xcodeproj
+      - name: Install Node dependencies
         run: |
+          npm install --legacy-peer-deps
+          npm install -g react-native-cli
+
+      - name: Install Ruby and Bundler
+        run: |
+          brew install ruby
           gem install bundler
           gem install cocoapods --version '>=1.16'
           gem install xcodeproj --version '>=1.24'
-          gem install fastlane
           sudo gem install ffi
+          pod --version  # Confirm the installed CocoaPods version
+
+      - name: Install CocoaPods dependencies
+        run: |
+          cd ios
+          bundle install  # Ensure all gems in Gemfile are installed
 
       - name: Clean CocoaPods Cache
         run: |
           pod cache clean --all
 
-      - name: Install Ruby dependencies
+      - name: Run Pod Install
         run: |
           cd ios
-          bundle install  # Ensure all gems in Gemfile are installed
-
-      - name: Install CocoaPods dependencies
-        run: |
-          cd ios
-          bundle exec pod install  # Use bundler to ensure correct version of CocoaPods
+          bundle exec pod install  # Ensure correct version of CocoaPods is used
 
       - name: Run Fastlane Build
         run: |
