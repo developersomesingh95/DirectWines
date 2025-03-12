@@ -20,17 +20,17 @@ jobs:
         with:
           node-version: '18'
 
-      # Install Ruby (Upgrade to Ruby 3.1.0 or higher)
+      # Install Ruby 3.1.0 or higher
       - name: Install Ruby 3.1.0 or higher
         run: |
           brew install ruby@3.1  # Install Ruby 3.1 using Homebrew
-          echo 'export PATH="/opt/homebrew/opt/ruby@3.1/bin:$PATH"' >> ~/.bash_profile
-          source ~/.bash_profile
+          echo 'export PATH="/opt/homebrew/opt/ruby@3.1/bin:$PATH"' >> ~/.zshrc
+          source ~/.zshrc  # Ensure Ruby 3.1 is used in the environment
 
       # Install Bundler and CocoaPods
       - name: Install Bundler and CocoaPods
         run: |
-          gem install bundler -v 2.6.5  # Now this will work as Ruby 3.1 is installed
+          gem install bundler -v 2.6.5  # Install specific version of Bundler
           gem install cocoapods        # Install CocoaPods
           pod --version                # Verify CocoaPods installation
 
