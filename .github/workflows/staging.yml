@@ -36,7 +36,7 @@ jobs:
       - name: Install CocoaPods and xcodeproj
         run: |
           gem install cocoapods --version '>=1.16'
-          gem install xcodeproj  # Install the latest version of xcodeproj
+          gem install xcodeproj --version '>=1.24'
           pod --version  # Confirm the installed CocoaPods version
 
       # Clean CocoaPods cache
