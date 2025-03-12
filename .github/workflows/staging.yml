@@ -51,7 +51,7 @@ jobs:
           cd ios
           bundle install  # Ensure all gems in Gemfile are installed
 
-      # Install CocoaPods dependencies
+      # Install CocoaPods dependencies using Bundler
       - name: Install CocoaPods dependencies
         run: |
           bundle exec pod install  # Use bundler to ensure correct version of CocoaPods
