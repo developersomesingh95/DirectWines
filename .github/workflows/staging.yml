@@ -50,7 +50,7 @@ jobs:
 
     # Step 8: Run Fastlane to build and ship the build
     - name: Build and upload to TestFlight
-      run: bundle exec fastlane deploy_to_app_store
+      run: fastlane deploy_to_app_store
       working-directory: ios  # Run Fastlane inside the 'ios' directory
       env:
         APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
