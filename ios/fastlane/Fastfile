@@ -55,6 +55,7 @@ platform :ios do
       app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
       git_url: "#{MATCH_REPO_URL}",  # Provide your Git repository URL here
       git_basic_authorization: Base64.strict_encode64(GIT_AUTHORIZATION),
+      readonly: true,
       keychain_name: TEMP_KEYCHAIN_USER,
       keychain_password: TEMP_KEYCHAIN_PASSWORD,
       api_key: api_key,
