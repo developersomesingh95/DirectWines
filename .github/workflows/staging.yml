@@ -36,8 +36,8 @@ jobs:
 
     # Step 5: Install Fastlane via Bundler
     - name: Install Fastlane via Bundler
-      run: |
-        sudo gem install fastlane
+      run: gem install fastlane
+        
 
     # Step 6: List installed gems to verify fastlane installation
     - name: Verify Fastlane Installation
