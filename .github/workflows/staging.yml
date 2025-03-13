@@ -30,15 +30,13 @@ jobs:
       env:
         CI: true
 
-    # Step 4: Install Bundler (Older Version for Ruby 2.7)
+    # Step 4: Install Bundler (compatible version for Ruby 2.7)
     - name: Install Bundler (Older Version for Ruby 2.7)
-      run: gem install bundler -v 2.4.21
+      run: gem install bundler -v 2.4.22
 
     # Step 5: Install Fastlane via Bundler
     - name: Install Fastlane via Bundler
-      run: |
-        gem install bundler
-        bundle install
+      run: bundle install
 
     # Step 6: Install Pods
     - name: Install pods
