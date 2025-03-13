@@ -60,7 +60,7 @@ platform :ios do
       api_key: api_key
     )
 
-    # Build the App
+    # Build the App 
     ipa = gym(
       configuration: "Release",
       export_xcargs: "-allowProvisioningUpdates",
