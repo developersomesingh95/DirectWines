@@ -39,16 +39,9 @@ jobs:
           gem install cocoapods
           pod install
 
-      # Step 6: Set environment variables for Staging
-      - name: Set environment variables for Staging
-        run: |
-          echo "APP_ENV=staging" >> $GITHUB_ENV
-          echo "ENVFILE=.env.staging" >> $GITHUB_ENV
-
       # Step 7: Run Fastlane for Build and Archive
       - name: Run Fastlane Build
         run: |
-          cd ios
           fastlane deploy_to_app_store
         working-directory: ios  # Ensure this runs inside the correct 'ios' directory
         env:
