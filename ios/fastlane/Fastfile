@@ -58,6 +58,7 @@ platform :ios do
       keychain_name: TEMP_KEYCHAIN_USER,
       keychain_password: TEMP_KEYCHAIN_PASSWORD,
       api_key: api_key,
+      match_password:'Somd@t329##'
     )
 
     # Build the App 
