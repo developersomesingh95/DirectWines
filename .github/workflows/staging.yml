@@ -10,64 +10,45 @@ jobs:
     runs-on: macos-latest  # Use macOS runner for iOS
 
     steps:
-      # Checkout the code
-      - name: Checkout code
-        uses: actions/checkout@v2
+    - uses: actions/checkout@v2
+    # Step 1: Install Node Version 14
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 14
+   # Step 2: Install Ruby
+    - name: Install Ruby
+      uses: actions/setup-ruby@v1
+      with:
+          ruby-version: 2.7
+    # Step 3: Install Node Modules
+    - name: Install Node Modules
+      run: yarn  
+      env:
+        CI: true
 
-      # Set up Node.js environment with version 18
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18'
-
-      # Install dependencies
-      - name: Install dependencies
-        run: |
-          npm install --legacy-peer-deps
-          npm install -g react-native-cli
-
-      # Install Ruby and Bundler
-      - name: Install Ruby and Bundler
-        run: |
-          brew install ruby
-          gem install bundler
-
-      # Navigate to the directory where Gemfile.lock exists (if needed)
-      - name: Navigate to the project directory (if required)
-        run: |
-          cd ios  # Assuming Gemfile.lock exists in the ios directory; change if necessary
-          
-      # Remove Gemfile.lock only if it exists in the correct directory
-      - name: Remove Gemfile.lock if it exists
-        run: |
-          if [ -f Gemfile.lock ]; then rm Gemfile.lock; fi  # Check if Gemfile.lock exists before trying to remove it
-
-      # Install gems from the Gemfile (with a fresh install)
-      - name: Install gems with Bundler
-        run: |
-          bundle install --clean  # Ensure gems are installed and clean any old versions
-
-      # Debug step: List installed gems to verify that fastlane is installed
-      - name: List installed gems
-        run: |
-          gem list
-
-      # Ensure CocoaPods is installed via Bundler
-      - name: Install CocoaPods dependencies
-        run: |
-          cd ios
-          bundle exec pod install  # Ensure pods are installed with Bundler
-
-      # Set up Fastlane Match
-      - name: Set up Fastlane Match
-        run: |
-          export MATCH_GIT_URL="git@github.com:developersomesingh95/DirectWines.git"  # Replace with your Git URL
-          bundle exec fastlane match development --type development --git_url $MATCH_GIT_URL
-        env:
-          MATCH_PASSWORD: ${{ secrets.MATCH_PASSWORD }}
-
-      # Run Fastlane Build (using Bundler to ensure correct version)
-      - name: Run Fastlane Build
-        run: |
-          cd ios
-          bundle exec fastlane ios beta  # Ensure correct version of Fastlane is used
+    # Step 6: Install Pods 
+    - name: Install pods
+      run: cd ios && pod install --repo-update && cd ..
+  
+    # Step 7: Install Fastlane 
+    - name: Install Fastlane
+      run:  bundle install && bundle update
+    # Step 8: Run Fastlane to build and ship the build 
+    - name: Build and upload to TestFlight
+      run: fastlane deploy_to_app_store
+      env:
+            APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
+            DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
+            DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'
+            DEVELOPER_PORTAL_TEAM_ID: '${{ secrets.DEVELOPER_PORTAL_TEAM_ID }}'
+            FASTLANE_APPLE_ID: '${{ secrets.FASTLANE_APPLE_ID }}'
+            FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD: '${{ secrets.FASTLANE_APPLE_APPLICATION_SPECIFIC_PASSWORD }}'
+            MATCH_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+            GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+            PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
+            TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+            TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+            APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
+            APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
+            APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
