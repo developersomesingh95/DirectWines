@@ -64,8 +64,8 @@ platform :ios do
     ipa = gym(
       configuration: "Release",
       export_xcargs: "-allowProvisioningUpdates",
-      workspace: 'AppName.xcworkspace',
-      scheme: "AppName Release",
+      workspace: 'DirectWines.xcworkspace',
+      scheme: "DirectWines Release",
       export_method: "app-store",
       export_options: {
         provisioningProfiles: { 
