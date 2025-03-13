@@ -25,25 +25,21 @@ jobs:
         run: |
           npm install --legacy-peer-deps
           npm install -g react-native-cli
-
       # Step 4: Install Ruby and Fastlane
       - name: Install Ruby and Fastlane
         run: |
           brew install ruby
           sudo gem install fastlane
-
       # Step 5: Install CocoaPods dependencies
       - name: Install CocoaPods dependencies
         run: |
           cd ios
           gem install cocoapods
           pod install
-
       - name: Set environment variables
         run: |
           echo "MATCH_REPO_URL=${{ secrets.MATCH_REPO_URL }}" >> $GITHUB_ENV
           echo "GIT_AUTHORIZATION=${{ secrets.GIT_AUTHORIZATION }}" >> $GITHUB_ENV
-
       # Step 7: Run Fastlane for Build and Archive
       - name: Run Fastlane Build
         run: |
