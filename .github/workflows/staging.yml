@@ -11,16 +11,19 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+
     # Step 1: Install Node Version 14
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
         node-version: '18'
-   # Step 2: Install Ruby
+
+    # Step 2: Install Ruby
     - name: Install Ruby
       uses: ruby/setup-ruby@v1
       with:
         ruby-version: 2.7
+
     # Step 3: Install Node Modules
     - name: Install Node Modules
       run: yarn  
@@ -29,7 +32,7 @@ jobs:
 
     # Step 4: Install Bundler (Older Version for Ruby 2.7)
     - name: Install Bundler (Older Version for Ruby 2.7)
-    - run: gem install bundler -v 2.4.21
+      run: gem install bundler -v 2.4.21
 
     # Step 5: Install Fastlane via Bundler
     - name: Install Fastlane via Bundler
