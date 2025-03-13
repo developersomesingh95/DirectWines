@@ -30,19 +30,25 @@ jobs:
       env:
         CI: true
 
-    # Step 4: Install Bundler (compatible version for Ruby 2.7)
+    # Step 4: Install Bundler (Older Version for Ruby 2.7)
     - name: Install Bundler (Older Version for Ruby 2.7)
       run: gem install bundler -v 2.4.22
 
     # Step 5: Install Fastlane via Bundler
     - name: Install Fastlane via Bundler
-      run: bundle install
+      run: |
+        gem install bundler -v 2.4.22
+        bundle install
 
-    # Step 6: Install Pods
+    # Step 6: List installed gems to verify fastlane installation
+    - name: Verify Fastlane Installation
+      run: gem list
+
+    # Step 7: Install Pods
     - name: Install pods
       run: cd ios && pod install --repo-update && cd ..
 
-    # Step 7: Run Fastlane to build and ship the build
+    # Step 8: Run Fastlane to build and ship the build
     - name: Build and upload to TestFlight
       run: bundle exec fastlane deploy_to_app_store
       env:
