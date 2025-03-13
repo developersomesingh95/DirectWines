@@ -52,13 +52,13 @@ jobs:
     - name: Ensure fastlane is installed
       run: |
         bundle exec fastlane --version  # Check that fastlane is installed and available
-      working-directory: DirectWines/ios  # Ensure this runs inside the correct 'ios' directory
+      working-directory: ios  # Ensure this runs inside the correct 'ios' directory
 
     # Step 9: Run Fastlane to build and ship the build
     - name: Run Fastlane to build and ship the build
       run: |
         bundle exec fastlane deploy_to_app_store
-      working-directory: DirectWines/ios  # Ensure this runs inside the correct 'ios' directory
+      working-directory: ios  # Ensure this runs inside the correct 'ios' directory
       env:
         APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
         DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
