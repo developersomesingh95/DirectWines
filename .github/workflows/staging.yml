@@ -46,19 +46,17 @@ jobs:
 
     # Step 7: Install Pods
     - name: Install pods
-      run: cd DirectWines/ios && pod install --repo-update && cd ..
+      run: cd ios && pod install --repo-update && cd ..
 
     # Step 8: Ensure fastlane is installed and available
     - name: Ensure fastlane is installed
       run: |
-        cd DirectWines/ios
         bundle exec fastlane --version  # Check that fastlane is installed and available
       working-directory: DirectWines/ios  # Ensure this runs inside the correct 'ios' directory
 
     # Step 9: Run Fastlane to build and ship the build
     - name: Run Fastlane to build and ship the build
       run: |
-        cd DirectWines/ios
         bundle exec fastlane deploy_to_app_store
       working-directory: DirectWines/ios  # Ensure this runs inside the correct 'ios' directory
       env:
