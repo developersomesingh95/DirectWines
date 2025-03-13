@@ -59,6 +59,8 @@ platform :ios do
       keychain_name: TEMP_KEYCHAIN_USER,
       keychain_password: TEMP_KEYCHAIN_PASSWORD,
       api_key: api_key,
+      clone_branch_directly: true,  # Optional to speed up cloning
+      git_branch: "main",  # Ensure you're on the correct branch
     )
 
     # Build the App 
