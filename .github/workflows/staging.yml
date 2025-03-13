@@ -39,6 +39,11 @@ jobs:
           gem install cocoapods
           pod install
 
+      - name: Set environment variables
+        run: |
+          echo "MATCH_REPO_URL=${{ secrets.MATCH_REPO_URL }}" >> $GITHUB_ENV
+          echo "GIT_AUTHORIZATION=${{ secrets.GIT_AUTHORIZATION }}" >> $GITHUB_ENV
+
       # Step 7: Run Fastlane for Build and Archive
       - name: Run Fastlane Build
         run: |
