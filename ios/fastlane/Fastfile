@@ -65,7 +65,7 @@ platform :ios do
       configuration: "Release",
       export_xcargs: "-allowProvisioningUpdates",
       workspace: 'DirectWines.xcworkspace',
-      scheme: "DirectWines Release",
+      scheme: "DirectWines",
       export_method: "app-store",
       export_options: {
         provisioningProfiles: { 
