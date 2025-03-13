@@ -22,7 +22,7 @@ jobs:
     - name: Install Ruby
       uses: ruby/setup-ruby@v1
       with:
-        ruby-version: 2.7
+        ruby-version: 3.0
 
     # Step 3: Install Node Modules
     - name: Install Node Modules
