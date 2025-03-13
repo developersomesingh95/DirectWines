@@ -12,7 +12,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    # Step 1: Install Node Version 14
+    # Step 1: Install Node Version 18
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
@@ -36,7 +36,9 @@ jobs:
 
     # Step 5: Install Fastlane via Bundler
     - name: Install Fastlane via Bundler
-      run: bundle install
+      run: |
+        gem install bundler
+        bundle install
 
     # Step 6: Install Pods
     - name: Install pods
