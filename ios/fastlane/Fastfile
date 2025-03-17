@@ -67,17 +67,18 @@ platform :ios do
 
     # Build the App 
     ipa = gym(
-      configuration: "Release",
-      export_xcargs: "-allowProvisioningUpdates",
-      workspace: 'DirectWines.xcworkspace',
-      scheme: "DirectWines",
-      export_method: "app-store",
-      export_options: {
-        provisioningProfiles: { 
-          DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
-        }
-      }
-    )
+  configuration: "Release",  # The build configuration, usually "Release"
+  export_xcargs: "-allowProvisioningUpdates",  # Allows automatic provisioning updates
+  workspace: 'DirectWines.xcworkspace',  # Path to the Xcode workspace
+  scheme: "DirectWines",  # The scheme to build
+  export_method: "app-store",  # The export method for App Store distribution
+  export_options: {
+    provisioningProfiles: { 
+      DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER  # Set the provisioning profile for your app
+    }
+  }
+)
+
 
     # Ship to TestFlight
     pilot(
