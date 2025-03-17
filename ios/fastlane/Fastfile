@@ -51,17 +51,17 @@ platform :ios do
 
     # Get the certificates from the GitHub account
     match(
-  type: 'appstore',  # Make sure you're using the correct type (e.g., appstore, development)
-  app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
-  git_url: "#{MATCH_REPO_URL}",  # Make sure the repository URL is correct
-  git_basic_authorization: Base64.strict_encode64(GIT_AUTHORIZATION),
-  readonly: true,  # This ensures no new certificate is created
-  keychain_name: TEMP_KEYCHAIN_USER,
-  keychain_password: TEMP_KEYCHAIN_PASSWORD,
-  api_key: api_key,
-  clone_branch_directly: true,  # Optionally, speeds up cloning the repository
-  git_branch: "main"  # Make sure you're using the correct branch
-)
+      type: 'appstore',
+      app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
+      git_url: "#{MATCH_REPO_URL}",
+      git_basic_authorization: Base64.strict_encode64(GIT_AUTHORIZATION),
+      keychain_name: TEMP_KEYCHAIN_USER,
+      keychain_password: TEMP_KEYCHAIN_PASSWORD,
+      api_key: api_key,
+      clone_branch_directly: true,
+      git_branch: "main"
+    )
+    
 
     
 
