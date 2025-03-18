@@ -67,7 +67,7 @@ platform :ios do
 
     # Step 1: Clean Derived Data
   # sh "rm -rf ~/Library/Developer/Xcode/DerivedData/*"
-  sh "ls -d ios/*/ || echo 'No directories found in ios folder.'"
+  sh "cd ios && ls -d */ || echo 'No directories found in ios folder.'"
 
   # # Step 2: Resolve Swift Package dependencies manually (if needed)
   # sh "xcodebuild -workspace ios/DirectWines.xcworkspace -scheme DirectWines -resolvePackageDependencies"
