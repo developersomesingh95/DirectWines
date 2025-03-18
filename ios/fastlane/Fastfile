@@ -54,7 +54,6 @@ platform :ios do
       type: 'appstore',
       app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
       git_url: "#{MATCH_REPO_URL}",
-      # readonly: true,
       git_basic_authorization: Base64.strict_encode64(GIT_AUTHORIZATION),
       keychain_name: TEMP_KEYCHAIN_USER,
       keychain_password: TEMP_KEYCHAIN_PASSWORD,
@@ -63,15 +62,12 @@ platform :ios do
       git_branch: "main",
       generate_apple_certs: false,  # This is fine if certs are pre-generated
     )
-    
 
-
-  # Step 4: Build the app
-  build_ios_app(
-    # workspace: "ios/DirectWines.xcworkspace",
+    # Step 4: Build the app
+    build_ios_app(
       configuration: "Release",
       export_xcargs: "-allowProvisioningUpdates",
-      workspace: 'DirectWines.xcworkspace',
+      workspace: 'ios/DirectWines.xcworkspace',  # Ensure path is correct
       scheme: "DirectWines",
       export_method: "app-store",
       export_options: {
@@ -81,10 +77,10 @@ platform :ios do
       },
       clean: true,  # Forces a clean build 
       skip_archive: false,  # Ensure archiving is not skipped
-    skip_package_dependencies_resolution:true
+      skip_package_dependencies_resolution: true  # Fixed syntax error
     )
 
-    # # Ship to TestFlight
+    # # Optionally Ship to TestFlight
     # pilot(
     #   apple_id: "#{DEVELOPER_APP_ID}",
     #   app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
