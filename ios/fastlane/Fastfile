@@ -61,6 +61,8 @@ platform :ios do
       api_key: api_key,
       clone_branch_directly: true,
       git_branch: "main",
+      generate_certs: false  # Skip certificate generation
+
     )
     
 
