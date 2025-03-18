@@ -66,7 +66,12 @@ platform :ios do
     
 
     
-
+ # Clean Derived Data
+ sh "rm -rf ~/Library/Developer/Xcode/DerivedData/*"
+  
+ # Clean build folder using xcodebuild
+ sh "xcodebuild clean -workspace DirectWines.xcworkspace -scheme DirectWines"
+ 
     # Build the App 
     build_ios_app(
       configuration: "Release",
