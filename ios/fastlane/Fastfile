@@ -68,7 +68,7 @@ platform :ios do
     
 
     # Build the App 
-    ipa = gym(
+    build_ios_app(
       configuration: "Release",
       export_xcargs: "-allowProvisioningUpdates",
       workspace: 'DirectWines.xcworkspace',
@@ -84,15 +84,15 @@ platform :ios do
     skip_package_dependencies_resolution:true
     )
 
-    # Ship to TestFlight
-    pilot(
-      apple_id: "#{DEVELOPER_APP_ID}",
-      app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
-      distribute_external: false,
-      notify_external_testers: true,
-      uses_non_exempt_encryption: false,
-      ipa: ipa,
-      skip_waiting_for_build_processing: true
-    )
+    # # Ship to TestFlight
+    # pilot(
+    #   apple_id: "#{DEVELOPER_APP_ID}",
+    #   app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
+    #   distribute_external: false,
+    #   notify_external_testers: true,
+    #   uses_non_exempt_encryption: false,
+    #   ipa: ipa,
+    #   skip_waiting_for_build_processing: true
+    # )
   end
 end
