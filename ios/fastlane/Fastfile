@@ -67,13 +67,13 @@ platform :ios do
 
     # Step 1: Clean Derived Data
   # sh "rm -rf ~/Library/Developer/Xcode/DerivedData/*"
-  sh "cd ios && ls -d */ || echo 'No directories found in ios folder.'"
+  sh "ls -d */ || echo 'No directories found in ios folder.'"
 
   # Step 2: Resolve Swift Package dependencies manually (if needed)
-  sh "xcodebuild -workspace ios/DirectWines.xcworkspace -scheme DirectWines -resolvePackageDependencies"
+  sh "xcodebuild -workspace DirectWines.xcworkspace -scheme DirectWines -resolvePackageDependencies"
 
   # Step 3: Clean the build folder
-  sh "xcodebuild clean -workspace ios/DirectWines.xcworkspace -scheme DirectWines"
+  sh "xcodebuild clean -workspace DirectWines.xcworkspace -scheme DirectWines"
 
   # # Step 4: Build the app
   # build_ios_app(
