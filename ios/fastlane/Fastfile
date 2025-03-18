@@ -12,7 +12,6 @@ APPLE_KEY_CONTENT = ENV["APPLE_KEY_CONTENT"]
 GIT_AUTHORIZATION = ENV["GIT_AUTHORIZATION"]
 MATCH_REPO_URL = ENV["MATCH_REPO_URL"]  # Add this variable for your repository URL
 ENV["MATCH_PASSWORD"] = "Somd@t329##"
-ENV['IDEFileSystemSynchronizedGroupsAreEnabled'] = 'NO'
 
 # We will download and store our keychain into a file
 def delete_temp_keychain(name)
@@ -64,11 +63,29 @@ platform :ios do
       generate_apple_certs: false,  # This is fine if certs are pre-generated
     )
 
-    # Step 4: Build the app
-    build_ios_app(
+    # Clean DerivedData and the project to ensure no leftover cached files
+  sh 'rm -rf ~/Library/Developer/Xcode/DerivedData/*'
+  
+  # Ensure correct path to workspace
+  workspace_path = 'ios/DirectWines.xcworkspace'
+  
+  # Check if workspace exists
+  unless File.exist?(workspace_path)
+    UI.user_error!("Workspace not found at path: #{workspace_path}")
+  end
+
+  # Clean project before building (optional but helpful)
+  sh "xcodebuild clean -workspace #{workspace_path} -scheme DirectWines"
+
+  # Set environment variable to disable synchronization (if necessary)
+  ENV['IDEFileSystemSynchronizedGroupsAreEnabled'] = 'NO'
+
+  # Build the app
+  build_ios_app(
+    workspace: workspace_path,
       configuration: "Release",
       export_xcargs: "-allowProvisioningUpdates",
-      workspace: 'DirectWines.xcworkspace',  # Ensure path is correct
+      # workspace: 'DirectWines.xcworkspace',  # Ensure path is correct
       scheme: "DirectWines",
       export_method: "app-store",
       export_options: {
