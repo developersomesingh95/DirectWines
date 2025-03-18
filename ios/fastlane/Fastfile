@@ -79,7 +79,7 @@ platform :ios do
           DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
         }
       },
-      clean: true,  # Forces a clean build
+      clean: true,  # Forces a clean build 
       skip_archive: false  # Ensure archiving is not skipped
     )
 
