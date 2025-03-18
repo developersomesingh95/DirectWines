@@ -60,7 +60,7 @@ platform :ios do
       keychain_password: TEMP_KEYCHAIN_PASSWORD,
       api_key: api_key,
       clone_branch_directly: true,
-      git_branch: "main",
+      git_branch: "demo",
       generate_apple_certs: false  # Skip certificate generation
 
     )
