@@ -44,7 +44,7 @@ jobs:
       - name: Run Fastlane Build
         run: |
           fastlane deploy_to_app_store
-        working-directory: ios  # Ensure this runs inside the correct 'ios' directory
+        # working-directory: ios  # Ensure this runs inside the correct 'ios' directory
         env:
           APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
           DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
