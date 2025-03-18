@@ -12,6 +12,7 @@ APPLE_KEY_CONTENT = ENV["APPLE_KEY_CONTENT"]
 GIT_AUTHORIZATION = ENV["GIT_AUTHORIZATION"]
 MATCH_REPO_URL = ENV["MATCH_REPO_URL"]  # Add this variable for your repository URL
 ENV["MATCH_PASSWORD"] = "Somd@t329##"
+ENV['IDEFileSystemSynchronizedGroupsAreEnabled'] = 'NO'
 
 # We will download and store our keychain into a file
 def delete_temp_keychain(name)
