@@ -67,7 +67,7 @@ platform :ios do
     build_ios_app(
       configuration: "Release",
       export_xcargs: "-allowProvisioningUpdates",
-      workspace: 'ios/DirectWines.xcworkspace',  # Ensure path is correct
+      workspace: 'DirectWines.xcworkspace',  # Ensure path is correct
       scheme: "DirectWines",
       export_method: "app-store",
       export_options: {
