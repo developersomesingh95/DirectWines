@@ -67,7 +67,7 @@ platform :ios do
   sh 'rm -rf ~/Library/Developer/Xcode/DerivedData/*'
   
   # Ensure correct path to workspace
-  workspace_path = 'DirectWines.xcworkspace'
+  workspace_path = 'ios/DirectWines.xcworkspace'
   
   # Check if workspace exists
   unless File.exist?(workspace_path)
