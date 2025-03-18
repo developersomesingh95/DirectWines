@@ -66,17 +66,20 @@ platform :ios do
     
 
     
- # Clean Derived Data
- sh "rm -rf ~/Library/Developer/Xcode/DerivedData/*"
+    workspace_path = "ios/DirectWines.xcworkspace"  # Adjust the path if needed
+
+    # Resolve package dependencies
+    sh "xcodebuild -workspace #{workspace_path} -scheme DirectWines -resolvePackageDependencies"
   
- # Clean build folder using xcodebuild
- sh "xcodebuild clean -workspace DirectWines.xcworkspace -scheme DirectWines"
- 
-    # Build the App 
+    # Clean the build folder
+    sh "xcodebuild clean -workspace #{workspace_path} -scheme DirectWines"
+  
+    # Build the app
     build_ios_app(
+      workspace: workspace_path,
       configuration: "Release",
       export_xcargs: "-allowProvisioningUpdates",
-      workspace: 'DirectWines.xcworkspace',
+      # workspace: 'DirectWines.xcworkspace',
       scheme: "DirectWines",
       export_method: "app-store",
       export_options: {
