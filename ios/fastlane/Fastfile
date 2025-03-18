@@ -62,7 +62,6 @@ platform :ios do
       clone_branch_directly: true,
       git_branch: "main",
       generate_apple_certs: false,  # This is fine if certs are pre-generated
-      skip_certificate_verification: false # Optional: Set this to true if you want to skip verification (not recommended for production)
     )
     
 
