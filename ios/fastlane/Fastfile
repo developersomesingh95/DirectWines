@@ -65,33 +65,24 @@ platform :ios do
     )
     
 
-    # Step 1: Clean Derived Data
-  # sh "rm -rf ~/Library/Developer/Xcode/DerivedData/*"
-  sh "ls -d */ || echo 'No directories found in ios folder.'"
 
-  # Step 2: Resolve Swift Package dependencies manually (if needed)
-  sh "xcodebuild -workspace DirectWines.xcworkspace -scheme DirectWines -resolvePackageDependencies"
-
-  # Step 3: Clean the build folder
-  sh "xcodebuild clean -workspace DirectWines.xcworkspace -scheme DirectWines"
-
-  # # Step 4: Build the app
-  # build_ios_app(
-  #   workspace: "ios/DirectWines.xcworkspace",
-  #     configuration: "Release",
-  #     export_xcargs: "-allowProvisioningUpdates",
-  #     # workspace: 'DirectWines.xcworkspace',
-  #     scheme: "DirectWines",
-  #     export_method: "app-store",
-  #     export_options: {
-  #       provisioningProfiles: { 
-  #         DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
-  #       }
-  #     },
-  #     clean: true,  # Forces a clean build 
-  #     skip_archive: false,  # Ensure archiving is not skipped
-  #   skip_package_dependencies_resolution:true
-  #   )
+  # Step 4: Build the app
+  build_ios_app(
+    # workspace: "ios/DirectWines.xcworkspace",
+      configuration: "Release",
+      export_xcargs: "-allowProvisioningUpdates",
+      workspace: 'DirectWines.xcworkspace',
+      scheme: "DirectWines",
+      export_method: "app-store",
+      export_options: {
+        provisioningProfiles: { 
+          DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
+        }
+      },
+      clean: true,  # Forces a clean build 
+      skip_archive: false,  # Ensure archiving is not skipped
+    skip_package_dependencies_resolution:true
+    )
 
     # # Ship to TestFlight
     # pilot(
