@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 56;
+	objectVersion = 54;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -65,7 +65,14 @@
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B117AC862D80715B00E73408 /* NotificationImageExtension */ = {
-			isa = PBXGroup;
+			isa = PBXFileSystemSynchronizedRootGroup;
+			exceptions = (
+				B117AC8D2D80715B00E73408 /* Exceptions for "NotificationImageExtension" folder in "NotificationImageExtension" target */,
+			);
+			explicitFileTypes = {
+			};
+			explicitFolders = (
+			);
 			path = NotificationImageExtension;
 			sourceTree = "<group>";
 		};
