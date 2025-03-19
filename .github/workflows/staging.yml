@@ -14,13 +14,13 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Set Xcode version (ensure correct version)
+      # Set Xcode version
       - name: Set Xcode version
         run: |
-          sudo xcode-select -s /Applications/Xcode_15.4.app
+          sudo xcode-select -s /Applications/Xcode_16.0.app
           xcodebuild -version
 
-      # Clean Derived Data to avoid synchronization issues
+      # Clean Derived Data to prevent any Xcode file synchronization issues
       - name: Clean Derived Data
         run: |
           rm -rf ~/Library/Developer/Xcode/DerivedData/*
@@ -37,19 +37,19 @@ jobs:
           npm install --legacy-peer-deps
           npm install -g react-native-cli
 
-      # Install CocoaPods
+      # Install CocoaPods dependencies
       - name: Install CocoaPods dependencies
         run: |
           cd ios
           pod install --repo-update
 
-      # Clean Xcode build
+      # Clean the Xcode build folder
       - name: Clean Xcode build
         run: |
           cd ios
           xcodebuild clean -verbose
 
-      # Run Fastlane
+      # Run Fastlane for deployment
       - name: Run Fastlane
         run: fastlane ios deploy_to_app_store
         working-directory: ios
