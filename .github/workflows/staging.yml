@@ -25,30 +25,35 @@ jobs:
         run: |
           npm install --legacy-peer-deps
           npm install -g react-native-cli
+
       # Step 4: Install Ruby and Fastlane
       - name: Install Ruby and Fastlane
         run: |
           brew install ruby
           sudo gem install fastlane
+
       # Step 5: Install CocoaPods dependencies
       - name: Install CocoaPods dependencies
         run: |
           cd ios
           gem install cocoapods
           pod install
-      - name: Set up environment variables from GitHub secrets
-      run: |
-        echo "DEVELOPER_APP_ID=${{ secrets.DEVELOPER_APP_ID }}" >> $GITHUB_ENV
-        echo "DEVELOPER_APP_IDENTIFIER=${{ secrets.DEVELOPER_APP_IDENTIFIER }}" >> $GITHUB_ENV
-        echo "MATCH_REPO_URL=${{ secrets.MATCH_REPO_URL }}" >> $GITHUB_ENV
-        echo "GIT_AUTHORIZATION=${{ secrets.GIT_AUTHORIZATION }}" >> $GITHUB_ENV
-        echo "MATCH_PASSWORD=${{ secrets.MATCH_PASSWORD }}" >> $GITHUB_ENV
-        echo "APPLE_KEY_ID=${{ secrets.APPLE_KEY_ID }}" >> $GITHUB_ENV
-        echo "APPLE_ISSUER_ID=${{ secrets.APPLE_ISSUER_ID }}" >> $GITHUB_ENV
-        echo "APPLE_KEY_CONTENT=${{ secrets.APPLE_KEY_CONTENT }}" >> $GITHUB_ENV
 
-       - name: Run Fastlane
-       run: fastlane ios deploy_to_app_store
+      # Step 6: Set up environment variables from GitHub secrets
+      - name: Set up environment variables from GitHub secrets
+        run: |
+          echo "DEVELOPER_APP_ID=${{ secrets.DEVELOPER_APP_ID }}" >> $GITHUB_ENV
+          echo "DEVELOPER_APP_IDENTIFIER=${{ secrets.DEVELOPER_APP_IDENTIFIER }}" >> $GITHUB_ENV
+          echo "MATCH_REPO_URL=${{ secrets.MATCH_REPO_URL }}" >> $GITHUB_ENV
+          echo "GIT_AUTHORIZATION=${{ secrets.GIT_AUTHORIZATION }}" >> $GITHUB_ENV
+          echo "MATCH_PASSWORD=${{ secrets.MATCH_PASSWORD }}" >> $GITHUB_ENV
+          echo "APPLE_KEY_ID=${{ secrets.APPLE_KEY_ID }}" >> $GITHUB_ENV
+          echo "APPLE_ISSUER_ID=${{ secrets.APPLE_ISSUER_ID }}" >> $GITHUB_ENV
+          echo "APPLE_KEY_CONTENT=${{ secrets.APPLE_KEY_CONTENT }}" >> $GITHUB_ENV
+
+      # Step 7: Run Fastlane
+      - name: Run Fastlane
+        run: fastlane ios deploy_to_app_store
         working-directory: ios  # Ensure this runs inside the correct 'ios' directory
         env:
           APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
