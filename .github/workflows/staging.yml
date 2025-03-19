@@ -32,6 +32,11 @@ jobs:
           cd ios
           pod install --repo-update
 
+      # Mark build directory as created by build system
+      - name: Mark build directory as created by build system
+        run: |
+          xattr -w com.apple.xcode.CreatedByBuildSystem true /Users/runner/work/DirectWines/DirectWines/ios/build
+
       # Clean the Xcode build folder
       - name: Clean Xcode build
         run: |
