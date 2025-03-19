@@ -3,12 +3,12 @@ name: Build and Deploy iOS App
 on:
   push:
     branches:
-      - main
+      - demo
 
 jobs:
   build:
     runs-on: macos-latest
-    
+
     steps:
       # Checkout the code
       - name: Checkout code
@@ -44,6 +44,9 @@ jobs:
           echo "MATCH_PASSWORD=${{ secrets.MATCH_PASSWORD }}" >> $GITHUB_ENV
           echo "DEVELOPER_APP_ID=${{ secrets.DEVELOPER_APP_ID }}" >> $GITHUB_ENV
           echo "DEVELOPER_APP_IDENTIFIER=${{ secrets.DEVELOPER_APP_IDENTIFIER }}" >> $GITHUB_ENV
+          echo "APPLE_KEY_ID=${{ secrets.APPLE_KEY_ID }}" >> $GITHUB_ENV
+          echo "APPLE_ISSUER_ID=${{ secrets.APPLE_ISSUER_ID }}" >> $GITHUB_ENV
+          echo "APPLE_KEY_CONTENT=${{ secrets.APPLE_KEY_CONTENT }}" >> $GITHUB_ENV
 
       # Run Fastlane
       - name: Run Fastlane
@@ -53,3 +56,6 @@ jobs:
           APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
           DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
           MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+          APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
+          APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
+          APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
