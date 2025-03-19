@@ -64,20 +64,14 @@ platform :ios do
     )
 
     # Build the app with 'gym', including the provisioning profile for export
-    ipa = gym(
-      configuration: "Release",
-      export_xcargs: "-allowProvisioningUpdates",
-      workspace: 'DirectWines.xcworkspace',
-      scheme: "DirectWines",
-      export_method: "app-store",
-      clean: true,
-      skip_archive: false,
-      export_options: {
-        provisioningProfiles: { 
-          DEVELOPER_APP_IDENTIFIER => PROVISIONING_PROFILE_SPECIFIER
-        }
-      }
-    )
+   # Build the app with 'gym', simplified
+   ipa = gym(
+    configuration: "Release",
+    workspace: 'DirectWines.xcworkspace',
+    scheme: "DirectWines",
+    clean: true,
+    skip_archive: false  # Don't skip archiving
+  )
 
     # Ship the IPA to App Store Connect using 'pilot'
     # pilot(
