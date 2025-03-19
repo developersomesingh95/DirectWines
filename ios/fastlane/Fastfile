@@ -10,7 +10,7 @@ APPLE_ISSUER_ID = ENV["APPLE_ISSUER_ID"]
 APPLE_KEY_ID = ENV["APPLE_KEY_ID"]
 APPLE_KEY_CONTENT = ENV["APPLE_KEY_CONTENT"]
 GIT_AUTHORIZATION = ENV["GIT_AUTHORIZATION"]
-MATCH_REPO_URL = ENV["MATCH_REPO_URL"]  # Add this variable for your repository URL
+MATCH_REPO_URL = ENV["MATCH_REPO_URL"]
 ENV["MATCH_PASSWORD"] = "Somd@t329##"
 
 # We will download and store our keychain into a file
@@ -61,12 +61,13 @@ platform :ios do
       clone_branch_directly: true,
       git_branch: "main",  # Ensure the branch is correct
       generate_apple_certs: false,  # Set to false if certs are pre-generated
+      provisioning_profile: PROVISIONING_PROFILE_SPECIFIER,  # Explicitly specify the profile
     )
 
     # Build the app with 'gym', including the provisioning profile for export
     ipa = gym(
       configuration: "Release",
-      export_xcargs: "-allowProvisioningUpdates",
+      export_xcargs: "-allowProvisioningUpdates",  # Allow provisioning updates
       workspace: 'DirectWines.xcworkspace',
       scheme: "DirectWines",
       export_method: "app-store",
