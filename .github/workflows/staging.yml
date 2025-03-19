@@ -13,7 +13,7 @@ jobs:
       # Checkout the code
       - name: Checkout code
         uses: actions/checkout@v2
-      
+
       # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v2
@@ -32,18 +32,14 @@ jobs:
           cd ios
           pod install --repo-update
 
-      # Set up Xcode command line tools
-      - name: Set up Xcode
-        run: |
-          sudo xcode-select --switch /Applications/Xcode.app/Contents/Developer
-          sudo xcodebuild -runFirstLaunch
-
       # Set environment variables for Fastlane
       - name: Set up environment variables
         run: |
-          echo "MATCH_PASSWORD=${{ secrets.MATCH_PASSWORD }}" >> $GITHUB_ENV
           echo "DEVELOPER_APP_ID=${{ secrets.DEVELOPER_APP_ID }}" >> $GITHUB_ENV
           echo "DEVELOPER_APP_IDENTIFIER=${{ secrets.DEVELOPER_APP_IDENTIFIER }}" >> $GITHUB_ENV
+          echo "MATCH_REPO_URL=${{ secrets.MATCH_REPO_URL }}" >> $GITHUB_ENV
+          echo "GIT_AUTHORIZATION=${{ secrets.GIT_AUTHORIZATION }}" >> $GITHUB_ENV
+          echo "MATCH_PASSWORD=${{ secrets.MATCH_PASSWORD }}" >> $GITHUB_ENV
           echo "APPLE_KEY_ID=${{ secrets.APPLE_KEY_ID }}" >> $GITHUB_ENV
           echo "APPLE_ISSUER_ID=${{ secrets.APPLE_ISSUER_ID }}" >> $GITHUB_ENV
           echo "APPLE_KEY_CONTENT=${{ secrets.APPLE_KEY_CONTENT }}" >> $GITHUB_ENV
@@ -55,7 +51,12 @@ jobs:
         env:
           APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
           DEVELOPER_APP_ID: '${{ secrets.DEVELOPER_APP_ID }}'
+          DEVELOPER_APP_IDENTIFIER: '${{ secrets.DEVELOPER_APP_IDENTIFIER }}'
           MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
+          GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
+          PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
+          TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+          TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
           APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
           APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
           APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
