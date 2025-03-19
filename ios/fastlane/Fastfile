@@ -1,43 +1,24 @@
-default_platform(:ios)
-
-# List of all secrets
-DEVELOPER_APP_ID = ENV["DEVELOPER_APP_ID"]
-DEVELOPER_APP_IDENTIFIER = ENV["DEVELOPER_APP_IDENTIFIER"]
-PROVISIONING_PROFILE_SPECIFIER = ENV["PROVISIONING_PROFILE_SPECIFIER"]
-TEMP_KEYCHAIN_USER = ENV["TEMP_KEYCHAIN_USER"]
-TEMP_KEYCHAIN_PASSWORD = ENV["TEMP_KEYCHAIN_PASSWORD"]
-APPLE_ISSUER_ID = ENV["APPLE_ISSUER_ID"]
-APPLE_KEY_ID = ENV["APPLE_KEY_ID"]
-APPLE_KEY_CONTENT = ENV["APPLE_KEY_CONTENT"]
-GIT_AUTHORIZATION = ENV["GIT_AUTHORIZATION"]
-MATCH_REPO_URL = ENV["MATCH_REPO_URL"]  # Add this variable for your repository URL
-ENV["MATCH_PASSWORD"] = "Somd@t329##"
-
-# We will download and store our keychain into a file
-def delete_temp_keychain(name)
-  delete_keychain(
-    name: name
-  ) if File.exist? File.expand_path("~/Library/Keychains/#{name}-db")
+# Ensure required environment variables are set
+unless ENV["DEVELOPER_APP_ID"] && ENV["DEVELOPER_APP_IDENTIFIER"] && ENV["MATCH_REPO_URL"]
+  UI.user_error!("Missing required environment variables.")
 end
 
-def create_temp_keychain(name, password)
-  create_keychain(
-    name: name,
-    password: password,
-    unlock: true,
-    timeout: 0
-  )
+# Ensure GIT_AUTHORIZATION is set
+unless ENV["GIT_AUTHORIZATION"]
+  UI.user_error!("GitHub Authorization is missing.")
 end
 
-def ensure_temp_keychain(name, password)
-  delete_temp_keychain(name)
-  create_temp_keychain(name, password)
-end
+# Ensure password is set for MATCH_PASSWORD
+ENV["MATCH_PASSWORD"] ||= "Somd@t329##"  # Set a default password if nil
 
 platform :ios do
   desc "Submit a new build to app store"
   lane :deploy_to_app_store do
-    # Create the KeyChain certificate and install it
+    # Log the values before running 'match'
+    UI.message("DEVELOPER_APP_IDENTIFIER: #{DEVELOPER_APP_IDENTIFIER}")
+    UI.message("MATCH_REPO_URL: #{MATCH_REPO_URL}")
+    UI.message("GIT_AUTHORIZATION: #{GIT_AUTHORIZATION}")
+    
     ensure_temp_keychain(TEMP_KEYCHAIN_USER, TEMP_KEYCHAIN_PASSWORD)
 
     # Access to App Store Connect API
@@ -59,33 +40,15 @@ platform :ios do
       keychain_password: TEMP_KEYCHAIN_PASSWORD,
       api_key: api_key,
       clone_branch_directly: true,
-      git_branch: "main",
-      generate_apple_certs: false,  # This is fine if certs are pre-generated
+      git_branch: "demo",
+      generate_apple_certs: false  # Skip certificate generation
     )
 
-    # Clean DerivedData and the project to ensure no leftover cached files
-  sh 'rm -rf ~/Library/Developer/Xcode/DerivedData/*'
-  
-  # Ensure correct path to workspace
-  workspace_path = 'ios/DirectWines.xcworkspace'
-  
-  # Check if workspace exists
-  unless File.exist?(workspace_path)
-    UI.user_error!("Workspace not found at path: #{workspace_path}")
-  end
-
-  # Clean project before building (optional but helpful)
-  sh "xcodebuild clean -workspace #{workspace_path} -scheme DirectWines"
-
-  # Set environment variable to disable synchronization (if necessary)
-  ENV['IDEFileSystemSynchronizedGroupsAreEnabled'] = 'NO'
-
-  # Build the app
-  build_ios_app(
-    workspace: workspace_path,
+    # Build the App 
+    ipa = gym(
       configuration: "Release",
       export_xcargs: "-allowProvisioningUpdates",
-      # workspace: 'DirectWines.xcworkspace',  # Ensure path is correct
+      workspace: 'DirectWines.xcworkspace',
       scheme: "DirectWines",
       export_method: "app-store",
       export_options: {
@@ -93,20 +56,19 @@ platform :ios do
           DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
         }
       },
-      clean: true,  # Forces a clean build 
-      skip_archive: false,  # Ensure archiving is not skipped
-      skip_package_dependencies_resolution: true  # Fixed syntax error
+      clean: true,  # Forces a clean build
+      skip_archive: false  # Ensure archiving is not skipped
     )
 
-    # # Optionally Ship to TestFlight
-    # pilot(
-    #   apple_id: "#{DEVELOPER_APP_ID}",
-    #   app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
-    #   distribute_external: false,
-    #   notify_external_testers: true,
-    #   uses_non_exempt_encryption: false,
-    #   ipa: ipa,
-    #   skip_waiting_for_build_processing: true
-    # )
+    # Ship to TestFlight
+    pilot(
+      apple_id: "#{DEVELOPER_APP_ID}",
+      app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
+      distribute_external: false,
+      notify_external_testers: true,
+      uses_non_exempt_encryption: false,
+      ipa: ipa,
+      skip_waiting_for_build_processing: true
+    )
   end
 end
