@@ -41,9 +41,9 @@ jobs:
           echo "MATCH_REPO_URL=${{ secrets.MATCH_REPO_URL }}" >> $GITHUB_ENV
           echo "GIT_AUTHORIZATION=${{ secrets.GIT_AUTHORIZATION }}" >> $GITHUB_ENV
       # Step 7: Run Fastlane for Build  and Archive
-      - name: Run Fastlane Build app
+      - name: Run Fastlane Build
         run: |
-           fastlane ios deploy_to_app_store
+          fastlane deploy_to_app_store
         working-directory: ios  # Ensure this runs inside the correct 'ios' directory
         env:
           APP_STORE_CONNECT_TEAM_ID: '${{ secrets.APP_STORE_CONNECT_TEAM_ID }}'
