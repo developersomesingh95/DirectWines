@@ -1,24 +1,43 @@
-# Ensure required environment variables are set
-unless ENV["DEVELOPER_APP_ID"] && ENV["DEVELOPER_APP_IDENTIFIER"] && ENV["MATCH_REPO_URL"]
-  UI.user_error!("Missing required environment variables.")
+default_platform(:ios)
+
+# List of all secrets
+DEVELOPER_APP_ID = ENV["DEVELOPER_APP_ID"]
+DEVELOPER_APP_IDENTIFIER = ENV["DEVELOPER_APP_IDENTIFIER"]
+PROVISIONING_PROFILE_SPECIFIER = ENV["PROVISIONING_PROFILE_SPECIFIER"]
+TEMP_KEYCHAIN_USER = ENV["TEMP_KEYCHAIN_USER"]
+TEMP_KEYCHAIN_PASSWORD = ENV["TEMP_KEYCHAIN_PASSWORD"]
+APPLE_ISSUER_ID = ENV["APPLE_ISSUER_ID"]
+APPLE_KEY_ID = ENV["APPLE_KEY_ID"]
+APPLE_KEY_CONTENT = ENV["APPLE_KEY_CONTENT"]
+GIT_AUTHORIZATION = ENV["GIT_AUTHORIZATION"]
+MATCH_REPO_URL = ENV["MATCH_REPO_URL"]  # Add this variable for your repository URL
+ENV["MATCH_PASSWORD"] = "Somd@t329##"
+
+# We will download and store our keychain into a file
+def delete_temp_keychain(name)
+  delete_keychain(
+    name: name
+  ) if File.exist? File.expand_path("~/Library/Keychains/#{name}-db")
 end
 
-# Ensure GIT_AUTHORIZATION is set
-unless ENV["GIT_AUTHORIZATION"]
-  UI.user_error!("GitHub Authorization is missing.")
+def create_temp_keychain(name, password)
+  create_keychain(
+    name: name,
+    password: password,
+    unlock: false,
+    timeout: 0
+  )
 end
 
-# Ensure password is set for MATCH_PASSWORD
-ENV["MATCH_PASSWORD"] ||= "Somd@t329##"  # Set a default password if nil
+def ensure_temp_keychain(name, password)
+  delete_temp_keychain(name)
+  create_temp_keychain(name, password)
+end
 
 platform :ios do
   desc "Submit a new build to app store"
   lane :deploy_to_app_store do
-    # Log the values before running 'match'
-    UI.message("DEVELOPER_APP_IDENTIFIER: #{DEVELOPER_APP_IDENTIFIER}")
-    UI.message("MATCH_REPO_URL: #{MATCH_REPO_URL}")
-    UI.message("GIT_AUTHORIZATION: #{GIT_AUTHORIZATION}")
-    
+    # Create the KeyChain certificate and install it
     ensure_temp_keychain(TEMP_KEYCHAIN_USER, TEMP_KEYCHAIN_PASSWORD)
 
     # Access to App Store Connect API
@@ -35,6 +54,7 @@ platform :ios do
       type: 'appstore',
       app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
       git_url: "#{MATCH_REPO_URL}",
+      # readonly: true,
       git_basic_authorization: Base64.strict_encode64(GIT_AUTHORIZATION),
       keychain_name: TEMP_KEYCHAIN_USER,
       keychain_password: TEMP_KEYCHAIN_PASSWORD,
@@ -42,7 +62,11 @@ platform :ios do
       clone_branch_directly: true,
       git_branch: "demo",
       generate_apple_certs: false  # Skip certificate generation
+
     )
+    
+
+    
 
     # Build the App 
     ipa = gym(
