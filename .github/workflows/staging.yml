@@ -14,23 +14,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Set Xcode version (add this check)
-      - name: Check available Xcode versions
-        run: |
-          xcode-select -p  # Prints the path of the active Xcode version
-          ls /Applications/  # List all Xcode versions to confirm
-
-      # Set the specific Xcode version (ensure you have the correct one installed)
+      # Set Xcode version (adjust to a version that works for your project)
       - name: Set Xcode version
         run: |
-          sudo xcode-select -s /Applications/Xcode_15.4.app  # Use Xcode 15.4 as an example
-          xcode-select -p  # Verify it's set to the right version
-
-      # Set up Node.js
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '18'
+          sudo xcode-select -s /Applications/Xcode_15.4.app  # Set this to the correct version
+          xcode-select -p  # Ensure Xcode is set correctly
 
       # Install dependencies
       - name: Install dependencies
@@ -38,13 +26,13 @@ jobs:
           npm install --legacy-peer-deps
           npm install -g react-native-cli
 
-      # Install CocoaPods
+      # Install CocoaPods dependencies
       - name: Install CocoaPods dependencies
         run: |
           cd ios
           pod install --repo-update
 
-      # Clean Xcode build folder
+      # Clean the Xcode build folder
       - name: Clean Xcode build
         run: |
           cd ios
