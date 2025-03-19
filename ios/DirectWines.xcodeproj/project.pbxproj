@@ -11,19 +11,8 @@
 		761780ED2CA45674006654EE /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 761780EC2CA45674006654EE /* AppDelegate.swift */; };
 		7A68B7472002FAE3F37B29DF /* libPods-DirectWines.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 885CEFB52BBFC9C4DC1A2439 /* libPods-DirectWines.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
-		B117AC8C2D80715B00E73408 /* NotificationImageExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B117AC852D80715B00E73408 /* NotificationImageExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		C9E9D0CAD824C2656D219F9C /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */; };
 /* End PBXBuildFile section */
-
-/* Begin PBXContainerItemProxy section */
-		B117AC8A2D80715B00E73408 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 83CBB9F71A601CBA00E9B192 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = B117AC842D80715B00E73408;
-			remoteInfo = NotificationImageExtension;
-		};
-/* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
 		B117AC912D80715B00E73408 /* Embed Foundation Extensions */ = {
@@ -32,7 +21,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
-				B117AC8C2D80715B00E73408 /* NotificationImageExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -49,23 +37,12 @@
 		87A1F238FBC63C6AA670F955 /* Pods-DirectWines.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DirectWines.debug.xcconfig"; path = "Target Support Files/Pods-DirectWines/Pods-DirectWines.debug.xcconfig"; sourceTree = "<group>"; };
 		885CEFB52BBFC9C4DC1A2439 /* libPods-DirectWines.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-DirectWines.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		95115A2ACC50CFACB795BC4E /* Pods-DirectWines.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DirectWines.release.xcconfig"; path = "Target Support Files/Pods-DirectWines/Pods-DirectWines.release.xcconfig"; sourceTree = "<group>"; };
-		B117AC852D80715B00E73408 /* NotificationImageExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = NotificationImageExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		B117ACEE2D8ACC0700E73408 /* DirectWines.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = DirectWines.entitlements; path = DirectWines/DirectWines.entitlements; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		B117AC8D2D80715B00E73408 /* PBXFileSystemSynchronizedBuildFileExceptionSet */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = B117AC842D80715B00E73408 /* NotificationImageExtension */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
 /* Begin PBXFileSystemSynchronizedRootGroup section */
-		B117AC862D80715B00E73408 /* NotificationImageExtension */ = {isa = PBXFileSystemSynchronizedRootGroup; exceptions = (B117AC8D2D80715B00E73408 /* PBXFileSystemSynchronizedBuildFileExceptionSet */, ); explicitFileTypes = {}; explicitFolders = (); path = NotificationImageExtension; sourceTree = "<group>"; };
+		B117AC862D80715B00E73408 /* NotificationImageExtension */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = NotificationImageExtension; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,13 +51,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				7A68B7472002FAE3F37B29DF /* libPods-DirectWines.a in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B117AC822D80715B00E73408 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -135,7 +105,6 @@
 			isa = PBXGroup;
 			children = (
 				13B07F961A680F5B00A75B9A /* DirectWines.app */,
-				B117AC852D80715B00E73408 /* NotificationImageExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -168,32 +137,11 @@
 			buildRules = (
 			);
 			dependencies = (
-				B117AC8B2D80715B00E73408 /* PBXTargetDependency */,
 			);
 			name = DirectWines;
 			productName = DirectWines;
 			productReference = 13B07F961A680F5B00A75B9A /* DirectWines.app */;
 			productType = "com.apple.product-type.application";
-		};
-		B117AC842D80715B00E73408 /* NotificationImageExtension */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = B117AC8E2D80715B00E73408 /* Build configuration list for PBXNativeTarget "NotificationImageExtension" */;
-			buildPhases = (
-				B117AC812D80715B00E73408 /* Sources */,
-				B117AC822D80715B00E73408 /* Frameworks */,
-				B117AC832D80715B00E73408 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				B117AC862D80715B00E73408 /* NotificationImageExtension */,
-			);
-			name = NotificationImageExtension;
-			productName = NotificationImageExtension;
-			productReference = B117AC852D80715B00E73408 /* NotificationImageExtension.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 /* End PBXNativeTarget section */
 
@@ -206,9 +154,6 @@
 				TargetAttributes = {
 					13B07F861A680F5B00A75B9A = {
 						LastSwiftMigration = 1120;
-					};
-					B117AC842D80715B00E73408 = {
-						CreatedOnToolsVersion = 16.0;
 					};
 				};
 			};
@@ -226,7 +171,6 @@
 			projectRoot = "";
 			targets = (
 				13B07F861A680F5B00A75B9A /* DirectWines */,
-				B117AC842D80715B00E73408 /* NotificationImageExtension */,
 			);
 		};
 /* End PBXProject section */
@@ -239,13 +183,6 @@
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
 				C9E9D0CAD824C2656D219F9C /* PrivacyInfo.xcprivacy in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		B117AC832D80715B00E73408 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -335,22 +272,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		B117AC812D80715B00E73408 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		B117AC8B2D80715B00E73408 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = B117AC842D80715B00E73408 /* NotificationImageExtension */;
-			targetProxy = B117AC8A2D80715B00E73408 /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		13B07F941A680F5B00A75B9A /* Debug */ = {
@@ -565,89 +487,6 @@
 			};
 			name = Release;
 		};
-		B117AC8F2D80715B00E73408 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
-				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = WAC6RH2D75;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = NotificationImageExtension/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = NotificationImageExtension;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = co.uk.laithwaites.NotificationImageExtension;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		B117AC902D80715B00E73408 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
-				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
-				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_IDENTITY = "Apple Development";
-				CODE_SIGN_STYLE = Automatic;
-				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 3;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = WAC6RH2D75;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
-				GCC_C_LANGUAGE_STANDARD = gnu17;
-				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = NotificationImageExtension/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = NotificationImageExtension;
-				INFOPLIST_KEY_NSHumanReadableCopyright = "";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
-				MARKETING_VERSION = 1.0;
-				MTL_FAST_MATH = YES;
-				PRODUCT_BUNDLE_IDENTIFIER = co.uk.laithwaites.NotificationImageExtension;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -665,15 +504,6 @@
 			buildConfigurations = (
 				83CBBA201A601CBA00E9B192 /* Debug */,
 				83CBBA211A601CBA00E9B192 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		B117AC8E2D80715B00E73408 /* Build configuration list for PBXNativeTarget "NotificationImageExtension" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				B117AC8F2D80715B00E73408 /* Debug */,
-				B117AC902D80715B00E73408 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
