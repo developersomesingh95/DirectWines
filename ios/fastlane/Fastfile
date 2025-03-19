@@ -61,7 +61,6 @@ platform :ios do
       clone_branch_directly: true,
       git_branch: "main",  # Ensure the branch is correct
       generate_apple_certs: false,  # Set to false if certs are pre-generated
-      provisioning_profile: PROVISIONING_PROFILE_SPECIFIER,  # Explicitly specify the profile
     )
 
     # Build the app with 'gym', including the provisioning profile for export
