@@ -14,7 +14,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Set up Node.js
+     # Set Xcode version (if needed)
+      - name: Set Xcode version
+        run: |
+          sudo xcode-select -s /Applications/Xcode_15.4.app
+     # Set up Node.js
       - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
