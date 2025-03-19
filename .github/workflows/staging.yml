@@ -32,17 +32,11 @@ jobs:
           cd ios
           pod install --repo-update
 
-      # Set environment variables for Fastlane
-      - name: Set up environment variables
+      # Clean the Xcode build folder
+      - name: Clean Xcode build
         run: |
-          echo "DEVELOPER_APP_ID=${{ secrets.DEVELOPER_APP_ID }}" >> $GITHUB_ENV
-          echo "DEVELOPER_APP_IDENTIFIER=${{ secrets.DEVELOPER_APP_IDENTIFIER }}" >> $GITHUB_ENV
-          echo "MATCH_REPO_URL=${{ secrets.MATCH_REPO_URL }}" >> $GITHUB_ENV
-          echo "GIT_AUTHORIZATION=${{ secrets.GIT_AUTHORIZATION }}" >> $GITHUB_ENV
-          echo "MATCH_PASSWORD=${{ secrets.MATCH_PASSWORD }}" >> $GITHUB_ENV
-          echo "APPLE_KEY_ID=${{ secrets.APPLE_KEY_ID }}" >> $GITHUB_ENV
-          echo "APPLE_ISSUER_ID=${{ secrets.APPLE_ISSUER_ID }}" >> $GITHUB_ENV
-          echo "APPLE_KEY_CONTENT=${{ secrets.APPLE_KEY_CONTENT }}" >> $GITHUB_ENV
+          cd ios
+          xcodebuild clean
 
       # Run Fastlane
       - name: Run Fastlane
@@ -60,3 +54,4 @@ jobs:
           APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
           APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
           APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
+          MATCH_REPO_URL: '${{ secrets.MATCH_REPO_URL }}'
