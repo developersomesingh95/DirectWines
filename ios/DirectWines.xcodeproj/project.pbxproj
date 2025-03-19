@@ -66,10 +66,6 @@
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		B117AC862D80715B00E73408 /* NotificationImageExtension */ = {
 			isa = PBXGroup;
-			explicitFileTypes = {
-			};
-			explicitFolders = (
-			);
 			path = NotificationImageExtension;
 			sourceTree = "<group>";
 		};
