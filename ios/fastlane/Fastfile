@@ -1,6 +1,6 @@
 # Ensure required environment variables are set
 unless ENV["DEVELOPER_APP_ID"] && ENV["DEVELOPER_APP_IDENTIFIER"] && ENV["MATCH_REPO_URL"]
-  UI.user_error!("Missing required environment variables.")
+  UI.user_error!("Missing required environment variables: DEVELOPER_APP_ID, DEVELOPER_APP_IDENTIFIER, MATCH_REPO_URL")
 end
 
 # Ensure GIT_AUTHORIZATION is set
@@ -8,24 +8,25 @@ unless ENV["GIT_AUTHORIZATION"]
   UI.user_error!("GitHub Authorization is missing.")
 end
 
-# Ensure password is set for MATCH_PASSWORD
+# Ensure password is set for MATCH_PASSWORD (default if nil)
 ENV["MATCH_PASSWORD"] ||= "Somd@t329##"  # Set a default password if nil
 
 platform :ios do
-  desc "Submit a new build to app store"
+  desc "Submit a new build to the app store"
   lane :deploy_to_app_store do
     # Log the values before running 'match'
-    UI.message("DEVELOPER_APP_IDENTIFIER: #{DEVELOPER_APP_IDENTIFIER}")
-    UI.message("MATCH_REPO_URL: #{MATCH_REPO_URL}")
-    UI.message("GIT_AUTHORIZATION: #{GIT_AUTHORIZATION}")
+    UI.message("DEVELOPER_APP_IDENTIFIER: #{ENV['DEVELOPER_APP_IDENTIFIER']}")
+    UI.message("MATCH_REPO_URL: #{ENV['MATCH_REPO_URL']}")
+    UI.message("GIT_AUTHORIZATION: #{ENV['GIT_AUTHORIZATION']}")
     
+    # Ensure required keychain values
     ensure_temp_keychain(TEMP_KEYCHAIN_USER, TEMP_KEYCHAIN_PASSWORD)
 
     # Access to App Store Connect API
     api_key = app_store_connect_api_key(
-      key_id: APPLE_KEY_ID,
-      issuer_id: APPLE_ISSUER_ID,
-      key_content: APPLE_KEY_CONTENT,    
+      key_id: ENV["APPLE_KEY_ID"],
+      issuer_id: ENV["APPLE_ISSUER_ID"],
+      key_content: ENV["APPLE_KEY_CONTENT"],    
       duration: 1200,            
       in_house: false
     )
@@ -33,9 +34,9 @@ platform :ios do
     # Get the certificates from the GitHub account
     match(
       type: 'appstore',
-      app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
-      git_url: "#{MATCH_REPO_URL}",
-      git_basic_authorization: Base64.strict_encode64(GIT_AUTHORIZATION),
+      app_identifier: ENV['DEVELOPER_APP_IDENTIFIER'],
+      git_url: ENV['MATCH_REPO_URL'],
+      git_basic_authorization: Base64.strict_encode64(ENV['GIT_AUTHORIZATION']),
       keychain_name: TEMP_KEYCHAIN_USER,
       keychain_password: TEMP_KEYCHAIN_PASSWORD,
       api_key: api_key,
@@ -53,7 +54,7 @@ platform :ios do
       export_method: "app-store",
       export_options: {
         provisioningProfiles: { 
-          DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
+          ENV['DEVELOPER_APP_ID'] => ENV['PROVISIONING_PROFILE_SPECIFIER']
         }
       },
       clean: true,  # Forces a clean build
@@ -62,8 +63,8 @@ platform :ios do
 
     # Ship to TestFlight
     pilot(
-      apple_id: "#{DEVELOPER_APP_ID}",
-      app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
+      apple_id: ENV['DEVELOPER_APP_ID'],
+      app_identifier: ENV['DEVELOPER_APP_IDENTIFIER'],
       distribute_external: false,
       notify_external_testers: true,
       uses_non_exempt_encryption: false,
