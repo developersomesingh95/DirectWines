@@ -60,4 +60,9 @@ jobs:
           MATCH_PASSWORD: '${{ secrets.MATCH_PASSWORD }}'
           GIT_AUTHORIZATION: '${{ secrets.GIT_AUTHORIZATION }}'
           PROVISIONING_PROFILE_SPECIFIER: '${{ secrets.PROVISIONING_PROFILE_SPECIFIER }}'
-          TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_
+          TEMP_KEYCHAIN_PASSWORD: '${{ secrets.TEMP_KEYCHAIN_PASSWORD }}'
+          TEMP_KEYCHAIN_USER: '${{ secrets.TEMP_KEYCHAIN_USER }}'
+          APPLE_KEY_ID: '${{ secrets.APPLE_KEY_ID }}'
+          APPLE_ISSUER_ID: '${{ secrets.APPLE_ISSUER_ID }}'
+          APPLE_KEY_CONTENT: '${{ secrets.APPLE_KEY_CONTENT }}'
+          MATCH_REPO_URL: '${{ secrets.MATCH_REPO_URL }}'
