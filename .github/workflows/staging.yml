@@ -17,7 +17,7 @@ jobs:
       # Set Xcode version (adjust to a version that works for your project)
       - name: Set Xcode version
         run: |
-          sudo xcode-select -s /Applications/Xcode.app  # Set this to the correct version
+          sudo xcode-select -s /Applications/Xcode_16.2.app  # Set this to the correct version
           xcode-select -p  # Ensure Xcode is set correctly
 
       # Install dependencies
