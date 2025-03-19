@@ -81,7 +81,7 @@ platform :ios do
       },
       clean: true,  # Forces a clean build 
       skip_archive: false,  # Ensure archiving is not skipped
-    disable_file_system_synchronization: true # Add this flag
+    # disable_file_system_synchronization: true # Add this flag
     )
 
     # Ship to TestFlight
