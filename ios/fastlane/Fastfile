@@ -66,28 +66,28 @@ platform :ios do
     # Build the app with 'gym', including the provisioning profile for export
     ipa = gym(
       configuration: "Release",
-      export_xcargs: "-allowProvisioningUpdates",  # Allow provisioning updates
+      export_xcargs: "-allowProvisioningUpdates",
       workspace: 'DirectWines.xcworkspace',
       scheme: "DirectWines",
       export_method: "app-store",
+      clean: true,
+      skip_archive: false,
       export_options: {
         provisioningProfiles: { 
           DEVELOPER_APP_IDENTIFIER => PROVISIONING_PROFILE_SPECIFIER
         }
-      },
-      clean: true,  # Forces a clean build 
-      skip_archive: false,  # Ensure archiving is not skipped
+      }
     )
 
     # Ship the IPA to App Store Connect using 'pilot'
-    pilot(
-      apple_id: DEVELOPER_APP_ID,
-      app_identifier: DEVELOPER_APP_IDENTIFIER,
-      distribute_external: false,
-      notify_external_testers: true,
-      uses_non_exempt_encryption: false,
-      ipa: ipa,
-      skip_waiting_for_build_processing: true
-    )
+    # pilot(
+    #   apple_id: DEVELOPER_APP_ID,
+    #   app_identifier: DEVELOPER_APP_IDENTIFIER,
+    #   distribute_external: false,
+    #   notify_external_testers: true,
+    #   uses_non_exempt_encryption: false,
+    #   ipa: ipa,
+    #   skip_waiting_for_build_processing: true
+    # )
   end
 end
