@@ -14,10 +14,9 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      # Set Xcode version
-      - name: Set Xcode version
+      # Check the default Xcode version available
+      - name: Check Xcode version
         run: |
-          sudo xcode-select -s /Applications/Xcode_16.0.app
           xcodebuild -version
 
       # Clean Derived Data to prevent any Xcode file synchronization issues
