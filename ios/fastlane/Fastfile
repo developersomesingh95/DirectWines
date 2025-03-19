@@ -24,7 +24,7 @@ def create_temp_keychain(name, password)
   create_keychain(
     name: name,
     password: password,
-    unlock: false,
+    unlock: true,
     timeout: 0
   )
 end
@@ -54,15 +54,14 @@ platform :ios do
       type: 'appstore',
       app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
       git_url: "#{MATCH_REPO_URL}",
-      readonly: true,
+      # readonly: true,
       git_basic_authorization: Base64.strict_encode64(GIT_AUTHORIZATION),
       keychain_name: TEMP_KEYCHAIN_USER,
       keychain_password: TEMP_KEYCHAIN_PASSWORD,
       api_key: api_key,
       clone_branch_directly: true,
-      git_branch: "demo",
-      generate_apple_certs: false  # Skip certificate generation
-
+      git_branch: "main",
+      generate_apple_certs: false,  # This is fine if certs are pre-generated
     )
     
 
@@ -80,8 +79,9 @@ platform :ios do
           DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
         }
       },
-      clean: true,  # Forces a clean build
-      skip_archive: false  # Ensure archiving is not skipped
+      clean: true,  # Forces a clean build 
+      skip_archive: false,  # Ensure archiving is not skipped
+    disable_file_system_synchronization: true # Add this flag
     )
 
     # Ship to TestFlight
