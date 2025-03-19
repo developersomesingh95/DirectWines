@@ -37,37 +37,33 @@ end
 platform :ios do
   desc "Submit a new build to app store"
   lane :deploy_to_app_store do
-    # # Create the KeyChain certificate and install it
+    # Optional: Uncomment if you want to create and manage a keychain for this process
     # ensure_temp_keychain(TEMP_KEYCHAIN_USER, TEMP_KEYCHAIN_PASSWORD)
 
     # Access to App Store Connect API
     api_key = app_store_connect_api_key(
       key_id: APPLE_KEY_ID,
       issuer_id: APPLE_ISSUER_ID,
-      key_content: APPLE_KEY_CONTENT,    
+      key_content: APPLE_KEY_CONTENT,
       duration: 1200,            
       in_house: false
     )
 
-    # Get the certificates from the GitHub account
+    # Get the certificates and profiles from the GitHub account using 'match'
     match(
       type: 'appstore',
-      app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
-      git_url: "#{MATCH_REPO_URL}",
-      # readonly: true,
+      app_identifier: DEVELOPER_APP_IDENTIFIER,
+      git_url: MATCH_REPO_URL,
       git_basic_authorization: Base64.strict_encode64(GIT_AUTHORIZATION),
       keychain_name: TEMP_KEYCHAIN_USER,
       keychain_password: TEMP_KEYCHAIN_PASSWORD,
       api_key: api_key,
       clone_branch_directly: true,
-      git_branch: "main",
-      generate_apple_certs: false,  # This is fine if certs are pre-generated
+      git_branch: "main",  # Ensure the branch is correct
+      generate_apple_certs: false,  # Set to false if certs are pre-generated
     )
-    
 
-    
-
-    # Build the App 
+    # Build the app with 'gym', including the provisioning profile for export
     ipa = gym(
       configuration: "Release",
       export_xcargs: "-allowProvisioningUpdates",
@@ -76,17 +72,17 @@ platform :ios do
       export_method: "app-store",
       export_options: {
         provisioningProfiles: { 
-          DEVELOPER_APP_ID => PROVISIONING_PROFILE_SPECIFIER
+          DEVELOPER_APP_IDENTIFIER => PROVISIONING_PROFILE_SPECIFIER
         }
       },
       clean: true,  # Forces a clean build 
       skip_archive: false,  # Ensure archiving is not skipped
     )
 
-    # Ship to TestFlight
+    # Ship the IPA to App Store Connect using 'pilot'
     pilot(
-      apple_id: "#{DEVELOPER_APP_ID}",
-      app_identifier: "#{DEVELOPER_APP_IDENTIFIER}",
+      apple_id: DEVELOPER_APP_ID,
+      app_identifier: DEVELOPER_APP_IDENTIFIER,
       distribute_external: false,
       notify_external_testers: true,
       uses_non_exempt_encryption: false,
