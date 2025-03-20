@@ -3,7 +3,7 @@ default_platform(:ios)
 # List of all secrets
 DEVELOPER_APP_ID = ENV["DEVELOPER_APP_ID"]
 DEVELOPER_APP_IDENTIFIER = ENV["DEVELOPER_APP_IDENTIFIER"]
-PROVISIONING_PROFILE_SPECIFIER = ENV["PROVISIONING_PROFILE_SPECIFIER"] # Manual provisioning profile name
+PROVISIONING_PROFILE_SPECIFIER = ENV["PROVISIONING_PROFILE_SPECIFIER"] # Your manually downloaded profile name
 TEMP_KEYCHAIN_USER = ENV["TEMP_KEYCHAIN_USER"]
 TEMP_KEYCHAIN_PASSWORD = ENV["TEMP_KEYCHAIN_PASSWORD"]
 APPLE_ISSUER_ID = ENV["APPLE_ISSUER_ID"]
@@ -35,7 +35,7 @@ def ensure_temp_keychain(name, password)
 end
 
 platform :ios do
-  desc "Submit a new build to the App Store"
+  desc "Submit a new build to app store"
   lane :deploy_to_app_store do
     # Optional: Uncomment to create and manage a keychain for this process
     # ensure_temp_keychain(TEMP_KEYCHAIN_USER, TEMP_KEYCHAIN_PASSWORD)
@@ -65,7 +65,7 @@ platform :ios do
 
     # Ensure that you have your profiles correctly installed in `~/Library/MobileDevice/Provisioning Profiles/`
 
-    # Build the app with 'gym', simplified and specifying manual provisioning profiles
+    # Build the app with 'gym', specifying manual provisioning profiles
     ipa = gym(
       configuration: "Release",
       workspace: 'DirectWines.xcworkspace',  # Your workspace
