@@ -3,7 +3,7 @@ default_platform(:ios)
 # List of all secrets
 DEVELOPER_APP_ID = ENV["DEVELOPER_APP_ID"]
 DEVELOPER_APP_IDENTIFIER = ENV["DEVELOPER_APP_IDENTIFIER"]
-PROVISIONING_PROFILE_SPECIFIER = ENV["PROVISIONING_PROFILE_SPECIFIER"] # Your manually downloaded profile name
+PROVISIONING_PROFILE_SPECIFIER = ENV["PROVISIONING_PROFILE_SPECIFIER"]
 TEMP_KEYCHAIN_USER = ENV["TEMP_KEYCHAIN_USER"]
 TEMP_KEYCHAIN_PASSWORD = ENV["TEMP_KEYCHAIN_PASSWORD"]
 APPLE_ISSUER_ID = ENV["APPLE_ISSUER_ID"]
@@ -37,19 +37,16 @@ end
 platform :ios do
   desc "Submit a new build to app store"
   lane :deploy_to_app_store do
-    # Optional: Uncomment to create and manage a keychain for this process
-    # ensure_temp_keychain(TEMP_KEYCHAIN_USER, TEMP_KEYCHAIN_PASSWORD)
-
     # Access to App Store Connect API
     api_key = app_store_connect_api_key(
       key_id: APPLE_KEY_ID,
       issuer_id: APPLE_ISSUER_ID,
       key_content: APPLE_KEY_CONTENT,
-      duration: 1200,
+      duration: 1200,            
       in_house: false
     )
 
-    # Download certificates and provisioning profiles using `match` (if you want to fetch them from your repo)
+    # Get the certificates and profiles from the GitHub account using 'match'
     match(
       type: 'appstore',
       app_identifier: DEVELOPER_APP_IDENTIFIER,
@@ -63,7 +60,10 @@ platform :ios do
       generate_apple_certs: false,  # Use existing certs if they are pre-generated
     )
 
-    # Ensure that you have your profiles correctly installed in `~/Library/MobileDevice/Provisioning Profiles/`
+    # Install provisioning profile manually on GitHub Actions
+    # Ensure that the provisioning profile is already decoded on GitHub Actions runner
+    # This decodes the base64 profile and saves it in the correct location
+    run('echo "$PROVISIONING_PROFILE_SPECIFIER" | base64 --decode > ~/Library/MobileDevice/Provisioning\\ Profiles/Laithwaites\\ Uk\\ Distribution.mobileprovision')
 
     # Build the app with 'gym', specifying manual provisioning profiles
     ipa = gym(
@@ -75,7 +75,7 @@ platform :ios do
       export_method: "app-store",             # Set export method for app store
       export_options: {
         provisioningProfiles: {
-          DEVELOPER_APP_IDENTIFIER => PROVISIONING_PROFILE_SPECIFIER # Manual profile
+          DEVELOPER_APP_IDENTIFIER => "Laithwaites Uk Distribution"  # Use the provisioning profile name here
         },
         signingStyle: "manual",  # Ensure manual signing is used
       },
