@@ -76,10 +76,10 @@ platform :ios do
       clean: true,                            # Forces a clean build
       skip_archive: false,                    # Don't skip archiving
       export_method: "app-store",             # Set export method for app store
-      # export_options: {
-      #   provisioningProfiles: {
-      #     DEVELOPER_APP_IDENTIFIER => ENV["PROVISIONING_PROFILE_SPECIFIER"]  # Use the manually downloaded profile name
-      #   },
+      export_options: {
+        provisioningProfiles: {
+          DEVELOPER_APP_IDENTIFIER => 'match AppStore co.uk.laithwaites'  # Use the manually downloaded profile name
+        },
         signingStyle: "manual",  # Ensure manual signing is used
       },
     )
