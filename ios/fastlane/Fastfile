@@ -3,7 +3,7 @@ default_platform(:ios)
 # List of all secrets
 DEVELOPER_APP_ID = ENV["DEVELOPER_APP_ID"]
 DEVELOPER_APP_IDENTIFIER = ENV["DEVELOPER_APP_IDENTIFIER"]
-PROVISIONING_PROFILE_SPECIFIER = ENV["PROVISIONING_PROFILE_SPECIFIER"]
+PROVISIONING_PROFILE_SPECIFIER = ENV["PROVISIONING_PROFILE_SPECIFIER"] # Manual provisioning profile name
 TEMP_KEYCHAIN_USER = ENV["TEMP_KEYCHAIN_USER"]
 TEMP_KEYCHAIN_PASSWORD = ENV["TEMP_KEYCHAIN_PASSWORD"]
 APPLE_ISSUER_ID = ENV["APPLE_ISSUER_ID"]
@@ -49,7 +49,7 @@ platform :ios do
       in_house: false
     )
 
-    # Download certificates and provisioning profiles using `match`
+    # Download certificates and provisioning profiles using `match` (if you want to fetch them from your repo)
     match(
       type: 'appstore',
       app_identifier: DEVELOPER_APP_IDENTIFIER,
@@ -63,7 +63,9 @@ platform :ios do
       generate_apple_certs: false,  # Use existing certs if they are pre-generated
     )
 
-    # Build the app with 'gym', simplified
+    # Ensure that you have your profiles correctly installed in `~/Library/MobileDevice/Provisioning Profiles/`
+
+    # Build the app with 'gym', simplified and specifying manual provisioning profiles
     ipa = gym(
       configuration: "Release",
       workspace: 'DirectWines.xcworkspace',  # Your workspace
@@ -73,20 +75,21 @@ platform :ios do
       export_method: "app-store",             # Set export method for app store
       export_options: {
         provisioningProfiles: {
-          DEVELOPER_APP_IDENTIFIER => PROVISIONING_PROFILE_SPECIFIER
-        }
+          DEVELOPER_APP_IDENTIFIER => PROVISIONING_PROFILE_SPECIFIER # Manual profile
+        },
+        signingStyle: "manual",  # Ensure manual signing is used
       },
     )
 
     # Uncomment if you want to upload the build to TestFlight or App Store
-    # pilot(
-    #   apple_id: DEVELOPER_APP_ID,
-    #   app_identifier: DEVELOPER_APP_IDENTIFIER,
-    #   distribute_external: false,
-    #   notify_external_testers: true,
-    #   uses_non_exempt_encryption: false,
-    #   ipa: ipa,
-    #   skip_waiting_for_build_processing: true
-    # )
+    pilot(
+      apple_id: DEVELOPER_APP_ID,
+      app_identifier: DEVELOPER_APP_IDENTIFIER,
+      distribute_external: false,
+      notify_external_testers: true,
+      uses_non_exempt_encryption: false,
+      ipa: ipa,
+      skip_waiting_for_build_processing: true
+    )
   end
 end
